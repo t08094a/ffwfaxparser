@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/CMakeModules/")
 
 # Set options for this project
 set (PROJECT_NAME "faxparser" CXX)
@@ -50,8 +50,6 @@ endif ()
 
 include_directories (${PROJECT_SOURCE_DECLARATION_DIRECTORY})
 include_directories(tests)
-
-enable_testing()
 
 aux_source_directory(src SRC_FILES)
 aux_source_directory(include HEADER_FILES)
