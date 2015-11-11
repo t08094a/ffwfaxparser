@@ -42,17 +42,17 @@ if (Boost_FOUND)
     message(STATUS "Boost libs: ${Boost_LIBRARIES}")
 endif ()
 
-#include(BoostTestHelpers)
-#add_boost_test(ParserUtilityTest.cpp ${PROJECT_NAME})
+add_executable(${PROJECT_NAME}_ParserUtility TestRunner.cpp ParserUtilityTest.cpp ) 
+add_executable(${PROJECT_NAME}_PropertyLocation TestRunner.cpp PropertyLocationTest.cpp ) 
+add_executable(${PROJECT_NAME}_OperationKeywords TestRunner.cpp OperationKeywordsTest.cpp ) 
+add_executable(${PROJECT_NAME}_IlsAnsbach TestRunner.cpp IlsAnsbachTest.cpp) 
 
-add_test(unit_1 ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME}_ParserUtility PRIVATE faxparser ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_PropertyLocation PRIVATE faxparser ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_OperationKeywords PRIVATE faxparser ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_IlsAnsbach PRIVATE faxparser ${Boost_LIBRARIES})
 
-#aux_source_directory(${CMAKE_CURRENT_LIST_DIR} SRC_TEST_FILES) # find all source files in ./
-#message(STATUS "Source files: ${SRC_TEST_FILES}")
-
-#add_executable(${PROJECT_NAME} ${SRC_TEST_FILES}) 
-add_executable(${PROJECT_NAME} TestRunner.cpp ParserUtilityTest.cpp PropertyLocationTest.cpp OperationKeywordsTest.cpp IlsAnsbachTest.cpp) 
-
-target_link_libraries(${PROJECT_NAME} faxparser ${Boost_LIBRARIES})
-
-#install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+add_test(NAME ParserUtility COMMAND ${PROJECT_NAME}_ParserUtility)
+add_test(NAME PropertyLocation COMMAND ${PROJECT_NAME}_PropertyLocation)
+add_test(NAME OperationKeywords COMMAND ${PROJECT_NAME}_OperationKeywords)
+add_test(NAME IlsAnsbach COMMAND ${PROJECT_NAME}_IlsAnsbach)

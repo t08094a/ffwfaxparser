@@ -21,9 +21,7 @@ set (PROJECT_SOURCE_DEFINITION_DIRECTORY ${PROJECT_SOURCE_DIR}/src)
 
 add_definitions(-std=c++11)
 
-#set(Boost_USE_STATIC_LIBS ON)
-#set(Boost_USE_STATIC_RUNTIME OFF)
-#set(BOOST_ALL_DYN_LINK OFF)
+enable_testing()
 
 # Load settings for the external project "Boost".
 # The components "system" and "filesystem" from "Boost" version 1.55.0 or
