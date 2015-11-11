@@ -46,7 +46,7 @@ IlsAnsbach::~IlsAnsbach()
 
 IOperation* IlsAnsbach::Parse(const std::string& filename)
 {
-    std::ifstream ifs(filename.c_str(), ios::in | ios::binary | ios::ate);
+    std::ifstream ifs(filename.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
     if(!ifs)
     {
         cerr << "Error opening file \"" << filename << "\"" << endl;

@@ -45,11 +45,13 @@ endif ()
 #include(BoostTestHelpers)
 #add_boost_test(ParserUtilityTest.cpp ${PROJECT_NAME})
 
-aux_source_directory(. SRC_TEST_FILES) # find all source files in ./
-message(STATUS "Source files: ${SRC_TEST_FILES}")
+add_test(unit_1 ${PROJECT_NAME})
+
+#aux_source_directory(${CMAKE_CURRENT_LIST_DIR} SRC_TEST_FILES) # find all source files in ./
+#message(STATUS "Source files: ${SRC_TEST_FILES}")
 
 #add_executable(${PROJECT_NAME} ${SRC_TEST_FILES}) 
-add_executable(${PROJECT_NAME} TestRunner.cpp ParserUtilityTest.cpp) 
+add_executable(${PROJECT_NAME} TestRunner.cpp ParserUtilityTest.cpp PropertyLocationTest.cpp OperationKeywordsTest.cpp IlsAnsbachTest.cpp) 
 
 target_link_libraries(${PROJECT_NAME} faxparser ${Boost_LIBRARIES})
 
