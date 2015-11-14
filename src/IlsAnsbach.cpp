@@ -52,6 +52,8 @@ IOperation* IlsAnsbach::Parse(const std::string& filename)
         cerr << "Error opening file \"" << filename << "\"" << endl;
         return nullptr;
     }
+    
+    cout << "Parsing file: " << filename << endl;
 
     std::vector<std::string> data;
 
@@ -335,6 +337,8 @@ IOperation* IlsAnsbach::Parse(vector<string> lines)
     ParserUtility::RemoveTrailingNewline(comment);
     operation->SetComment(comment);
 
+    delete last;
+    
     return operation;
 }
 

@@ -17,7 +17,10 @@
  *
  */
 
+#include <sstream>
+#include <boost/date_time/posix_time/posix_time_io.hpp>
 #include "OperationResource.h"
+
 
 OperationResource::OperationResource()
 {
@@ -26,7 +29,7 @@ OperationResource::OperationResource()
 
 OperationResource::OperationResource (const OperationResource& other)
 {
-
+    // todo
 }
 
 OperationResource::~OperationResource()
@@ -36,7 +39,7 @@ OperationResource::~OperationResource()
 
 OperationResource& OperationResource::operator= (const OperationResource& other)
 {
-
+    // todo
 }
 
 bool OperationResource::operator== (const OperationResource& other) const
@@ -72,4 +75,20 @@ const vector<string>& OperationResource::GetRequestedEquipment() const
 void OperationResource::AddRequestedEquipment(string equipment)
 {
     requestedEquipment.push_back(equipment);
+}
+
+string OperationResource::ToString() const
+{
+    stringstream ss;
+    
+    ss << "Resource: " << fullName << endl;
+    ss << "\t" << "Time: " << timestamp << endl;
+    ss << "\t" << "Equipment:" << endl;
+    
+    for(string s : requestedEquipment)
+    {
+        ss << "\t\t" << s << endl;
+    }
+    
+    return ss.str();
 }

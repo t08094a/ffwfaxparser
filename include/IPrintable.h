@@ -17,33 +17,19 @@
  *
  */
 
-#ifndef IOPERATION_H
-#define IOPERATION_H
+#ifndef IPRINTABLE_H
+#define IPRINTABLE_H
 
-#include <iostream>
-#include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/uuid/uuid.hpp>
-#include "IPrintable.h"
+#include <string>
 
-class IOperation : public IPrintable
+class IPrintable
 {
 public:
-    virtual int GetId() const = 0;
-    virtual void SetId(int id) = 0;
-    virtual boost::uuids::uuid GetGuid() = 0;
-    virtual void SetGuid(boost::uuids::uuid guid) = 0;
-    virtual boost::posix_time::ptime GetTimestampIncome() = 0;
-    virtual void SetTimestampIncome(boost::posix_time::ptime time) = 0;
-    virtual boost::posix_time::ptime GetTimestamp() = 0;
-    virtual void SetTimestamp(boost::posix_time::ptime time) = 0;
+    /**
+     * @brief Returns a string that contains all informations.
+     * @return A string that contains all informations.
+     */
     virtual std::string ToString() const = 0;
-    
-    friend std::ostream& operator<< (std::ostream& out, const IPrintable& printable)
-    {
-        out << printable.ToString();
-        
-        return out;
-    }
 };
 
-#endif // IOPERATION_H
+#endif // IPRINTABLE_H

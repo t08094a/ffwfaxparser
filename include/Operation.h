@@ -20,11 +20,12 @@
 #ifndef OPERATION_H
 #define OPERATION_H
 
+#include <vector>
+#include <iostream>
 #include "IOperation.h"
 #include "OperationKeywords.h"
 #include "OperationResource.h"
 #include "PropertyLocation.h"
-#include <vector>
 
 using namespace std;
 
@@ -49,7 +50,7 @@ private:
     string messenger;
     string priority;
     string comment;
-    OperationKeywords keywords;    
+    OperationKeywords keywords;
 
 public:
     Operation();
@@ -58,11 +59,18 @@ public:
     Operation& operator= ( const Operation& other );
     bool operator== ( const Operation& other ) const;
     
+    friend ostream& operator<< (ostream& out, const Operation& operation)
+    {
+        out << operation.ToString();
+        
+        return out;
+    }
+        
     /**
      * @brief Gets the unique Id of this operation.
      * @return
      */
-    int GetId();
+    int GetId() const;
 
     /**
      * @brief Sets the unique Id of this operation.
@@ -179,6 +187,8 @@ public:
      * @param comment
      */
     void SetComment(const string comment);
+    
+    std::string ToString() const;
 };
 
 #endif // OPERATION_H

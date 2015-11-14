@@ -22,7 +22,7 @@ set(Boost_USE_STATIC_LIBS ON)
 # Load settings for the external project "Boost".
 # The components "system" and "filesystem" from "Boost" version 1.55.0 or
 # greater are required.
-find_package( Boost 1.55.0 REQUIRED COMPONENTS regex date_time unit_test_framework )
+find_package( Boost 1.55.0 REQUIRED COMPONENTS system filesystem regex date_time unit_test_framework )
 if (Boost_FOUND)
     # From the offical documentation:
     # Add include directories to the build. [...] If the SYSTEM option is given,
@@ -43,16 +43,17 @@ if (Boost_FOUND)
 endif ()
 
 add_executable(${PROJECT_NAME}_ParserUtility TestRunner.cpp ParserUtilityTest.cpp ) 
-add_executable(${PROJECT_NAME}_PropertyLocation TestRunner.cpp PropertyLocationTest.cpp ) 
-add_executable(${PROJECT_NAME}_OperationKeywords TestRunner.cpp OperationKeywordsTest.cpp ) 
-add_executable(${PROJECT_NAME}_IlsAnsbach TestRunner.cpp IlsAnsbachTest.cpp) 
-
 target_link_libraries(${PROJECT_NAME}_ParserUtility PRIVATE faxparser ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME}_PropertyLocation PRIVATE faxparser ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME}_OperationKeywords PRIVATE faxparser ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME}_IlsAnsbach PRIVATE faxparser ${Boost_LIBRARIES})
-
 add_test(NAME ParserUtility COMMAND ${PROJECT_NAME}_ParserUtility)
+
+add_executable(${PROJECT_NAME}_PropertyLocation TestRunner.cpp PropertyLocationTest.cpp ) 
+target_link_libraries(${PROJECT_NAME}_PropertyLocation PRIVATE faxparser ${Boost_LIBRARIES})
 add_test(NAME PropertyLocation COMMAND ${PROJECT_NAME}_PropertyLocation)
+
+add_executable(${PROJECT_NAME}_OperationKeywords TestRunner.cpp OperationKeywordsTest.cpp ) 
+target_link_libraries(${PROJECT_NAME}_OperationKeywords PRIVATE faxparser ${Boost_LIBRARIES})
 add_test(NAME OperationKeywords COMMAND ${PROJECT_NAME}_OperationKeywords)
+
+add_executable(${PROJECT_NAME}_IlsAnsbach TestRunner.cpp IlsAnsbachTest.cpp) 
+target_link_libraries(${PROJECT_NAME}_IlsAnsbach PRIVATE faxparser ${Boost_LIBRARIES})
 add_test(NAME IlsAnsbach COMMAND ${PROJECT_NAME}_IlsAnsbach)

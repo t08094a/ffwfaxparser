@@ -21,13 +21,15 @@
 #define OPERATIONKEYWORDS_H
 
 #include <string>
+#include <iostream>
+#include "IPrintable.h"
 
 using namespace std;
 
 /**
  * @brief Contains the keywords ("stichwörter") for an operation.
  */
-class OperationKeywords
+class OperationKeywords : public IPrintable
 {
 private:
     string keyword;
@@ -44,6 +46,13 @@ public:
     OperationKeywords& operator= ( const OperationKeywords& other );
     bool operator== ( const OperationKeywords& other ) const;
     
+    friend ostream& operator<< (ostream& out, const OperationKeywords& keywords)
+    {
+        out << keywords.ToString();
+        
+        return out;
+    }
+        
     /**
      * @brief Gets the "Stichwort" (generic keyword), direct or equivalent.
      * @return
@@ -120,7 +129,7 @@ public:
      * @brief Returns a string that contains all set keywords separated by commas.
      * @return A string that contains all set keywords by commas
      */
-    string ToString();
+    string ToString() const;
 };
 
 #endif // OPERATIONKEYWORDS_H

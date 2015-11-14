@@ -107,7 +107,7 @@ void OperationKeywords::SetT(const string t)
     this->t = boost::trim_copy(t);
 }
 
-string OperationKeywords::ToString()
+string OperationKeywords::ToString() const
 {
     vector<string> parts;
 

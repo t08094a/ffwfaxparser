@@ -20,6 +20,8 @@
 #include "Operation.h"
 #include <algorithm>
 #include <functional>
+#include <sstream>
+#include <boost/uuid/uuid_io.hpp>
 
 // this is a function object to delete a pointer matching our criteria.
 struct resource_deleter
@@ -39,6 +41,29 @@ Operation::Operation()
 
 Operation::Operation (const Operation& other)
 {
+    id = other.id;
+    guid = other.guid;
+    timestampIncome = other.timestampIncome;
+    timestamp = other.timestamp;
+    absender = other.absender;
+    termin = other.termin;
+    einsatzortZusatz = other.einsatzortZusatz;
+    einsatzortPlannummer = other.einsatzortPlannummer;
+    einsatzortStation = other.einsatzortStation;
+    zielortZusatz = other.zielortZusatz;
+    zielortStation = other.zielortStation;
+    operationNumber = other.operationNumber;
+    einsatzort = other.einsatzort; // todo: = pointer copy
+    zielort = other.zielort;       // todo: = pointer copy
+    messenger = other.messenger;
+    priority = other.priority;
+    comment = other.comment;
+    keywords = other.keywords;     // todo: = pointer copy
+    resources = other.resources;   // todo: = pointer copy
+}
+
+Operation::~Operation()
+{
     // now, apply resource_deleter to each element, remove the elements that were deleted,
     // and erase them from the vector
     for_each(resources.begin(), resources.end(), resource_deleter());
@@ -46,22 +71,17 @@ Operation::Operation (const Operation& other)
     resources.erase(new_end, resources.end());
 }
 
-Operation::~Operation()
-{
-
-}
-
 Operation& Operation::operator= (const Operation& other)
 {
-
+    // todo
 }
 
 bool Operation::operator== (const Operation& other) const
 {
-
+    // todo
 }
 
-int Operation::GetId()
+int Operation::GetId() const
 {
     return id;
 }
@@ -231,3 +251,33 @@ PropertyLocation& Operation::GetZielort()
     return zielort;
 }
 
+std::string Operation::ToString() const
+{
+    // todo: vollständig machen
+    std::stringstream ss;
+    
+    ss << "Operation:" << endl;
+    ss << "\t" << "id: " << id << endl;
+    ss << "\t" << "guid: " << guid << endl;
+    ss << "\t" << "timestampIncome: " << timestampIncome << endl;
+    ss << "\t" << "timestamp: " << timestamp << endl;
+    ss << "\t" << "absender: " << absender << endl;
+    ss << "\t" << "termin: " << termin << endl;
+    ss << "\t" << "einsatzortZusatz: " << einsatzortZusatz << endl;
+    ss << "\t" << "einsatzortPlannummer: " << einsatzortPlannummer << endl;
+    ss << "\t" << "einsatzortStation: " << einsatzortStation << endl;
+    ss << "\t" << "operationNumber: " << operationNumber << endl;
+    ss << "\t" << "einsatzort: " << einsatzort << endl;
+    ss << "\t" << "messenger: " << messenger << endl;
+    ss << "\t" << "priority: " << priority << endl;
+    ss << "\t" << "comment: " << comment << endl;
+    ss << "\t" << "keywords: " << keywords << endl;
+    ss << "\t" << "resources: " << endl;
+    
+    for(auto resource : resources)
+    {
+        ss << "\t\t" << resource << endl;
+    }
+    
+    return ss.str();
+}

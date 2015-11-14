@@ -21,10 +21,12 @@
 #define PROPERTYLOCATION_H
 
 #include <string>
+#include <iostream>
+#include "IPrintable.h"
 
 using namespace std;
 
-class PropertyLocation
+class PropertyLocation : public IPrintable
 {
 private:
     string location;
@@ -43,6 +45,13 @@ public:
     ~PropertyLocation();
     PropertyLocation& operator= ( const PropertyLocation& other );
     bool operator== ( const PropertyLocation& other ) const;
+    
+    friend ostream& operator<< (ostream& out, const PropertyLocation& location)
+    {
+        out << location.ToString();
+        
+        return out;
+    }
     
     /**
      * @brief Gets the location name.
@@ -171,7 +180,7 @@ public:
      *        "[[Street] [StreetNumber]], [ZipCode] [City]".
      * @return
      */
-    const string ToString();
+    string ToString() const;
 };
 
 #endif // PROPERTYLOCATION_H

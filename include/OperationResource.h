@@ -22,14 +22,16 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 #include <boost/date_time/posix_time/ptime.hpp>
+#include "IPrintable.h"
 
 using namespace std;
 
 /**
  * @brief Represents a resource, which was was requested by the call center.
  */
-class OperationResource
+class OperationResource : public IPrintable
 {
 private:
     vector<string> requestedEquipment;
@@ -41,6 +43,13 @@ public:
     ~OperationResource();
     OperationResource& operator= ( const OperationResource& other );
     bool operator== ( const OperationResource& other ) const;
+    
+    friend ostream& operator<< (ostream& out, const OperationResource& resource)
+    {
+        out << resource.ToString();
+        
+        return out;
+    }
     
     /**
      * @brief Gets the name of the resource. Usually this represents a vehicle.
@@ -73,6 +82,12 @@ public:
     const vector<string>& GetRequestedEquipment() const;
 
     void AddRequestedEquipment(string equipment);
+    
+    /**
+     * @brief Returns a string that contains all informations.
+     * @return A string that contains all informations.
+     */
+    string ToString() const;
 };
 
 #endif // OPERATIONRESOURCE_H

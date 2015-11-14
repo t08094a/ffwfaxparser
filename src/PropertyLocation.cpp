@@ -171,7 +171,7 @@ bool PropertyLocation::HasGeoCoordinates()
     return geoLatitude.empty() == false || geoLongitude.empty() == false;
 }
 
-const string PropertyLocation::ToString()
+string PropertyLocation::ToString() const
 {
     std::stringstream ss;
 
