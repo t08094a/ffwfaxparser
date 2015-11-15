@@ -7,12 +7,12 @@ Current Build Directory Index=0
 ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
-Build Directory Path=file:///home/leif/tmp/kdevelop/faxParser/build
-Build Type=Debug
+Build Directory Path=file:///home/leif/Downloads/repositories_co/ffwfaxparser/build
+Build Type=
 CMake Binary=file:///usr/bin/cmake
 Environment Profile=
 Extra Arguments=
-Install Directory=file:///home/leif/tmp/kdevelop/faxParser/build/installed
+Install Directory=file:///home/leif/Downloads/repositories_co/ffwfaxparser/build/installed
 
 [Defines And Includes][Compiler]
 Name=GCC

@@ -46,8 +46,8 @@ IlsAnsbach::~IlsAnsbach()
 
 IOperation* IlsAnsbach::Parse(const std::string& filename)
 {
-    std::ifstream ifs(filename.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
-    if(!ifs)
+    std::ifstream ifs(filename.c_str(), std::ios::in | std::ios::binary);
+    if(!ifs || ifs.is_open() == false)
     {
         cerr << "Error opening file \"" << filename << "\"" << endl;
         return nullptr;
@@ -56,11 +56,13 @@ IOperation* IlsAnsbach::Parse(const std::string& filename)
     cout << "Parsing file: " << filename << endl;
 
     std::vector<std::string> data;
-
-    std::copy(std::istream_iterator<std::string>(ifs),
-              std::istream_iterator<std::string>(),
-              std::back_inserter(data));
-
+    std::string line;
+    
+    while (std::getline(ifs, line))
+    {
+        data.push_back(line);
+    }
+    
     return Parse(data);
 }
 
@@ -290,7 +292,7 @@ IOperation* IlsAnsbach::Parse(vector<string> lines)
 
                 if (boost::starts_with(upperLine, "EINSATZMITTEL"))
                 {
-                    msg = ParserUtility::GetMessageText(line, "EINSATZMITTEL");
+                    msg = ParserUtility::GetMessageText(line, "Einsatzmittel");
                     last->SetFullName(msg);
                 }
                 else if (boost::starts_with(upperLine, "ALARMIERT") && msg.empty() == false)

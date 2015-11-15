@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/CMakeModules/")
 
 # Set options for this project
-set (PROJECT_NAME "faxparser" CXX)
+set(PROJECT_NAME "faxparser" CXX)
 project(${PROJECT_NAME})
 
 message(STATUS "============================")
@@ -16,8 +16,12 @@ if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     message(STATUS "Install prefix (overriden): ${CMAKE_INSTALL_PREFIX}")
 endif()
 
-set (PROJECT_SOURCE_DECLARATION_DIRECTORY ${PROJECT_SOURCE_DIR}/include)
-set (PROJECT_SOURCE_DEFINITION_DIRECTORY ${PROJECT_SOURCE_DIR}/src)
+set(PROJECT_SOURCE_DECLARATION_DIRECTORY ${PROJECT_SOURCE_DIR}/include)
+set(PROJECT_SOURCE_DEFINITION_DIRECTORY ${PROJECT_SOURCE_DIR}/src)
+
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0") # -Wall
+message( STATUS "CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE}" )
 
 add_definitions(-std=c++11)
 
