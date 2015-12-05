@@ -42,9 +42,10 @@ private:
 public:
     OperationKeywords();
     OperationKeywords ( const OperationKeywords& other );
-    ~OperationKeywords();
+    virtual ~OperationKeywords();
     OperationKeywords& operator= ( const OperationKeywords& other );
     bool operator== ( const OperationKeywords& other ) const;
+    bool operator!= (const OperationKeywords& other) const;
     
     friend ostream& operator<< (ostream& out, const OperationKeywords& keywords)
     {

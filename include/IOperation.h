@@ -28,6 +28,7 @@
 class IOperation : public IPrintable
 {
 public:
+    virtual ~IOperation() {}
     virtual int GetId() const = 0;
     virtual void SetId(int id) = 0;
     virtual boost::uuids::uuid GetGuid() = 0;

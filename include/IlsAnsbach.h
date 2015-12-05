@@ -37,7 +37,7 @@ private:
 public:
     IlsAnsbach();
     IlsAnsbach ( const IlsAnsbach& other );
-    ~IlsAnsbach();
+    virtual ~IlsAnsbach();
     
     IOperation* Parse(const std::string& filename);
     IOperation* Parse(std::vector<std::string> lines);

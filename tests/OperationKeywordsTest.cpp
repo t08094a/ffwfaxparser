@@ -56,3 +56,87 @@ BOOST_AUTO_TEST_CASE(SettedAllWithoutRKeywordsResultsInCorrectOutput)
 
     delete op;
 }
+
+BOOST_AUTO_TEST_CASE(CopyConstructerCreatesIdenticalObject)
+{
+    OperationKeywords* op = new OperationKeywords();
+    op->SetKeyword("eins");
+    op->SetEmergencyKeyword("zwei");
+    op->SetB("b1");
+    op->SetS("s1");
+    op->SetT("t1");
+
+    OperationKeywords* copiedObject = new OperationKeywords(*op);
+
+    BOOST_CHECK(op->GetB() == copiedObject->GetB());
+    BOOST_CHECK(op->GetEmergencyKeyword() == copiedObject->GetEmergencyKeyword());
+    BOOST_CHECK(op->GetKeyword() == copiedObject->GetKeyword());
+    BOOST_CHECK(op->GetR() == copiedObject->GetR());
+    BOOST_CHECK(op->GetS() == copiedObject->GetS());
+    BOOST_CHECK(op->GetT() == copiedObject->GetT());
+
+    delete op;
+    delete copiedObject;
+}
+
+BOOST_AUTO_TEST_CASE(CompareEqualToTrue)
+{
+    OperationKeywords* op1 = new OperationKeywords();
+    op1->SetKeyword("eins");
+    op1->SetEmergencyKeyword("zwei");
+    op1->SetB("b1");
+    op1->SetS("s1");
+    op1->SetT("t1");
+    
+    OperationKeywords* op2 = new OperationKeywords();
+    op2->SetKeyword("eins");
+    op2->SetEmergencyKeyword("zwei");
+    op2->SetB("b1");
+    op2->SetS("s1");
+    op2->SetT("t1");
+    
+    BOOST_CHECK(*op1 == *op2);
+    
+    delete op1;
+    delete op2;
+}
+
+BOOST_AUTO_TEST_CASE(CompareEqualToFalse)
+{
+    OperationKeywords* op1 = new OperationKeywords();
+    op1->SetKeyword("eins");
+    op1->SetEmergencyKeyword("zwei");
+    op1->SetB("b1");
+    op1->SetS("s1");
+    op1->SetT("t1");
+    
+    OperationKeywords* op2 = new OperationKeywords();
+    op2->SetKeyword("eins");
+    op2->SetEmergencyKeyword("zwei");
+    op2->SetB("b1");
+    op2->SetS("s2");
+    op2->SetT("t1");
+    
+    BOOST_CHECK(*op1 != *op2);
+    
+    delete op1;
+    delete op2;
+}
+
+BOOST_AUTO_TEST_CASE(AssignmentCreatesIdenticalObject)
+{
+    OperationKeywords* op1 = new OperationKeywords();
+    op1->SetKeyword("eins");
+    op1->SetEmergencyKeyword("zwei");
+    op1->SetB("b1");
+    op1->SetS("s1");
+    op1->SetT("t1");
+    
+    OperationKeywords* op2 = op1;
+    
+    BOOST_CHECK(*op1 == *op2); // compare content
+    BOOST_CHECK(op1 == op2);   // compare pointer
+    
+    delete op1;
+    // delete op2; // already free by delete op1
+}

@@ -29,7 +29,12 @@ OperationKeywords::OperationKeywords()
 
 OperationKeywords::OperationKeywords (const OperationKeywords& other)
 {
-
+    this->keyword = other.keyword;
+    this->emergencyKeyword = other.emergencyKeyword;
+    this->b = other.b;
+    this->r = other.r;
+    this->s = other.s;
+    this->t = other.t;
 }
 
 OperationKeywords::~OperationKeywords()
@@ -39,12 +44,34 @@ OperationKeywords::~OperationKeywords()
 
 OperationKeywords& OperationKeywords::operator= (const OperationKeywords& other)
 {
-
+    if (this == &other)
+    {
+        return *this; // handle self assignment
+    }
+    
+    this->keyword = other.keyword;
+    this->emergencyKeyword = other.emergencyKeyword;
+    this->b = other.b;
+    this->r = other.r;
+    this->s = other.s;
+    this->t = other.t;
+    
+    return *this;
 }
 
 bool OperationKeywords::operator== (const OperationKeywords& other) const
 {
+    return this->keyword == other.keyword &&
+           this->emergencyKeyword == other.emergencyKeyword &&
+           this->b == other.b &&
+           this->r == other.r &&
+           this->s == other.s &&
+           this->t == other.t;
+}
 
+bool OperationKeywords::operator!= (const OperationKeywords& other) const
+{
+    return ! operator==(other);
 }
 
 string OperationKeywords::GetKeyword()

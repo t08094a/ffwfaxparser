@@ -52,6 +52,16 @@ PropertyLocation& PropertyLocation::operator= (const PropertyLocation& other)
     {
         return *this; // handle self assignment
     }
+    
+    this->city = other.city;
+    this->geoLatitude = other.geoLatitude;
+    this->geoLongitude = other.geoLongitude;
+    this->intersection = other.intersection;
+    this->location = other.location;
+    this->property = other.property;
+    this->street = other.street;
+    this->streetNumber = other.streetNumber;
+    this->zipCode = other.zipCode;
 
     //assignment operator
     return *this;
@@ -59,7 +69,20 @@ PropertyLocation& PropertyLocation::operator= (const PropertyLocation& other)
 
 bool PropertyLocation::operator== (const PropertyLocation& other) const
 {
+    return this->city == other.city &&
+           this->geoLatitude == other.geoLatitude &&
+           this->geoLongitude == other.geoLongitude &&
+           this->intersection == other.intersection &&
+           this->location == other.location &&
+           this->property == other.property &&
+           this->street == other.street &&
+           this->streetNumber == other.streetNumber &&
+           this->zipCode == other.zipCode;
+}
 
+bool PropertyLocation::operator!= (const PropertyLocation& other) const
+{
+    return ! operator==(other);
 }
 
 string PropertyLocation::GetLocation()

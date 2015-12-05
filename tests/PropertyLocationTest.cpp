@@ -185,3 +185,63 @@ BOOST_AUTO_TEST_CASE(CopyConstructerCreatesIdenticalObject)
     delete location;
     delete copiedObject;
 }
+
+BOOST_AUTO_TEST_CASE(CompareEqualToTrue)
+{
+    PropertyLocation* location1 = new PropertyLocation();
+    location1->SetCity("Ipsheim");
+    location1->SetGeoLatitude("1,0");
+    location1->SetGeoLongitude("2,0");
+    location1->SetIntersection("intersection");
+    location1->SetLocation("Ipsheim");
+    location1->SetProperty("Wohnhaus");
+    location1->SetStreet("Waldstr.");
+    location1->SetStreetNumber("46");
+    location1->SetZipCode("91472");
+    
+    PropertyLocation* location2 = new PropertyLocation();
+    location2->SetCity("Ipsheim");
+    location2->SetGeoLatitude("1,0");
+    location2->SetGeoLongitude("2,0");
+    location2->SetIntersection("intersection");
+    location2->SetLocation("Ipsheim");
+    location2->SetProperty("Wohnhaus");
+    location2->SetStreet("Waldstr.");
+    location2->SetStreetNumber("46");
+    location2->SetZipCode("91472");
+    
+    BOOST_CHECK(*location1 == *location2);
+    
+    delete location1;
+    delete location2;
+}
+
+BOOST_AUTO_TEST_CASE(CompareEqualToFalse)
+{
+    PropertyLocation* location1 = new PropertyLocation();
+    location1->SetCity("Ipsheim");
+    location1->SetGeoLatitude("1,0");
+    location1->SetGeoLongitude("2,0");
+    location1->SetIntersection("intersection");
+    location1->SetLocation("Ipsheim");
+    location1->SetProperty("Wohnhaus");
+    location1->SetStreet("Waldstr.");
+    location1->SetStreetNumber("46");
+    location1->SetZipCode("91472");
+    
+    PropertyLocation* location2 = new PropertyLocation();
+    location2->SetCity("Ipsheim");
+    location2->SetGeoLatitude("1,0");
+    location2->SetGeoLongitude("2,0");
+    location2->SetIntersection("intersection");
+    location2->SetLocation("Oberndorf");
+    location2->SetProperty("Wohnhaus");
+    location2->SetStreet("Waldstr.");
+    location2->SetStreetNumber("46");
+    location2->SetZipCode("91472");
+    
+    BOOST_CHECK(*location1 != *location2);
+    
+    delete location1;
+    delete location2;
+}

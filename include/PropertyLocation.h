@@ -42,9 +42,10 @@ private:
 public:
     PropertyLocation();
     PropertyLocation ( const PropertyLocation& other );
-    ~PropertyLocation();
+    virtual ~PropertyLocation();
     PropertyLocation& operator= ( const PropertyLocation& other );
     bool operator== ( const PropertyLocation& other ) const;
+    bool operator!= (const PropertyLocation& other) const;
     
     friend ostream& operator<< (ostream& out, const PropertyLocation& location)
     {

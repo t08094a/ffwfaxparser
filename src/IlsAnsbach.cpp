@@ -76,7 +76,7 @@ IOperation* IlsAnsbach::Parse(vector<string> lines)
     CurrentSection section = CurrentSection::AHeader;
     bool keywordsOnly = true;
 
-    for (int i = 0; i < lines.size(); i++)
+    for (size_t i = 0; i < lines.size(); i++)
     {
         string line = lines[i];
         if (line.length() == 0)

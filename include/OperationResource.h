@@ -40,7 +40,7 @@ private:
 public:
     OperationResource();
     OperationResource ( const OperationResource& other );
-    ~OperationResource();
+    virtual ~OperationResource();
     OperationResource& operator= ( const OperationResource& other );
     bool operator== ( const OperationResource& other ) const;
     

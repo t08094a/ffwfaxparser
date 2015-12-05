@@ -25,6 +25,7 @@
 class IParser
 {
 public:
+    virtual ~IParser() {}
     virtual IOperation* Parse(const std::vector<std::string> lines) = 0;
 };
 

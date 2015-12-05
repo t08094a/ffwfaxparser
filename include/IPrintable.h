@@ -25,6 +25,8 @@
 class IPrintable
 {
 public:
+    virtual ~IPrintable() {}
+    
     /**
      * @brief Returns a string that contains all informations.
      * @return A string that contains all informations.

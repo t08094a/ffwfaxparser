@@ -55,7 +55,7 @@ private:
 public:
     Operation();
     Operation ( const Operation& other );
-    ~Operation();
+    virtual ~Operation();
     Operation& operator= ( const Operation& other );
     bool operator== ( const Operation& other ) const;
     

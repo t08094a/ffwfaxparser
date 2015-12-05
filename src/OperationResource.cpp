@@ -29,7 +29,9 @@ OperationResource::OperationResource()
 
 OperationResource::OperationResource (const OperationResource& other)
 {
-    // todo
+    this->requestedEquipment = other.requestedEquipment;
+    this->fullName = other.fullName;
+    this->timestamp = other.timestamp;
 }
 
 OperationResource::~OperationResource()
@@ -39,12 +41,23 @@ OperationResource::~OperationResource()
 
 OperationResource& OperationResource::operator= (const OperationResource& other)
 {
-    // todo
+    if (this == &other)
+    {
+        return *this; // handle self assignment
+    }
+    
+    this->requestedEquipment = other.requestedEquipment;
+    this->fullName = other.fullName;
+    this->timestamp = other.timestamp;
+    
+    return *this;
 }
 
 bool OperationResource::operator== (const OperationResource& other) const
 {
-    return true; // todo
+    return fullName == other.fullName &&
+           timestamp == other.timestamp &&
+           requestedEquipment == other.requestedEquipment;
 }
 
 string OperationResource::GetFullName()

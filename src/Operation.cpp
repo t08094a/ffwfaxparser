@@ -53,13 +53,13 @@ Operation::Operation (const Operation& other)
     zielortZusatz = other.zielortZusatz;
     zielortStation = other.zielortStation;
     operationNumber = other.operationNumber;
-    einsatzort = other.einsatzort; // todo: = pointer copy
-    zielort = other.zielort;       // todo: = pointer copy
+    einsatzort = other.einsatzort;
+    zielort = other.zielort;
     messenger = other.messenger;
     priority = other.priority;
     comment = other.comment;
-    keywords = other.keywords;     // todo: = pointer copy
-    resources = other.resources;   // todo: = pointer copy
+    keywords = other.keywords;
+    resources = other.resources;
 }
 
 Operation::~Operation()
@@ -73,12 +73,55 @@ Operation::~Operation()
 
 Operation& Operation::operator= (const Operation& other)
 {
-    // todo
+    if (this == &other)
+    {
+        return *this; // handle self assignment
+    }
+    
+    id = other.id;
+    guid = other.guid;
+    timestampIncome = other.timestampIncome;
+    timestamp = other.timestamp;
+    absender = other.absender;
+    termin = other.termin;
+    einsatzortZusatz = other.einsatzortZusatz;
+    einsatzortPlannummer = other.einsatzortPlannummer;
+    einsatzortStation = other.einsatzortStation;
+    zielortZusatz = other.zielortZusatz;
+    zielortStation = other.zielortStation;
+    operationNumber = other.operationNumber;
+    einsatzort = other.einsatzort;
+    zielort = other.zielort;
+    messenger = other.messenger;
+    priority = other.priority;
+    comment = other.comment;
+    keywords = other.keywords;
+    resources = other.resources;
+    
+    return *this;
 }
 
 bool Operation::operator== (const Operation& other) const
 {
-    // todo
+    return id == other.id &&
+           guid == other.guid &&
+           timestampIncome == other.timestampIncome &&
+           timestamp == other.timestamp &&
+           absender == other.absender &&
+           termin == other.termin &&
+           einsatzortZusatz == other.einsatzortZusatz &&
+           einsatzortPlannummer == other.einsatzortPlannummer &&
+           einsatzortStation == other.einsatzortStation &&
+           zielortZusatz == other.zielortZusatz &&
+           zielortStation == other.zielortStation &&
+           operationNumber == other.operationNumber &&
+           einsatzort == other.einsatzort && // todo: == pointer copy
+           zielort == other.zielort &&       // todo: == pointer copy
+           messenger == other.messenger &&
+           priority == other.priority &&
+           comment == other.comment &&
+           keywords == other.keywords &&     // todo: == pointer copy
+           resources == other.resources;   // todo: == pointer copy
 }
 
 int Operation::GetId() const
