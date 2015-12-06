@@ -115,6 +115,17 @@ BOOST_AUTO_TEST_CASE( GetMessageTextWithKeywordAndTimestampResultsInTimestamp)
     BOOST_CHECK(expected == result);
 }
 
+BOOST_AUTO_TEST_CASE( GetMessageTextWithEmptyKeywordAndTimestampResultsInTimestamp)
+{
+    std::string line = "Alarmiert                       : 13.09.2015 11:36";
+    std::string keyword = "";
+    std::string expected = "13.09.2015 11:36";
+
+    std::string result = ParserUtility::GetMessageText(line, keyword);
+
+    BOOST_CHECK(expected == result);
+}
+
 BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityResultsIn91472)
 {
     std::string city = "91472 Ipsheim";
@@ -214,6 +225,16 @@ BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithInnerLineFeedResultsInSameValue)
     BOOST_CHECK(expected == line);
 }
 
+BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithOnlySpacesResultsInEmptyValue)
+{
+    std::string line = "  ";
+    std::string expected = "  ";
+
+    ParserUtility::RemoveTrailingNewline(line);
+
+    BOOST_CHECK(expected == line);
+}
+
 BOOST_AUTO_TEST_CASE( AnalyzeStreetLineResultsInCorrectStreet)
 {
     std::string message = "Straße       : Oberndorfer Straße           Haus-Nr.: 12a";
@@ -268,6 +289,34 @@ BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithoutHausNrResultsInCorrectStreet)
     BOOST_CHECK("Oberndorfer Straße" == street);
     BOOST_CHECK("1" == streetNumber);
     BOOST_CHECK("" == appendix);
+}
+
+BOOST_AUTO_TEST_CASE( AnalyzeStreetLineB470WithKmValueResultsInCorrectStreet)
+{
+    std::string message = "Straße       : B470    366 km";
+    std::string street;
+    std::string streetNumber;
+    std::string appendix;
+
+    ParserUtility::AnalyzeStreetLine(message, street, streetNumber, appendix);
+
+    BOOST_CHECK("B470" == street);
+    BOOST_CHECK("366" == streetNumber);
+    BOOST_CHECK("" == appendix);
+}
+
+BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithHausNrAppendixResultsInCorrectStreet)
+{
+    std::string message = "Straße       : Oberndorfer Straße 1a Erdgeschoss";
+    std::string street;
+    std::string streetNumber;
+    std::string appendix;
+
+    ParserUtility::AnalyzeStreetLine(message, street, streetNumber, appendix);
+
+    BOOST_CHECK("Oberndorfer Straße" == street);
+    BOOST_CHECK("1a" == streetNumber);
+    BOOST_CHECK("Erdgeschoss" == appendix);
 }
 
 BOOST_AUTO_TEST_CASE( A7ResultsInHighwayIsTrue)

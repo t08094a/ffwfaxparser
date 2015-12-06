@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE(SettedOnlyStreetAndZipCodeResultsCorrectString)
     delete location;
 }
 
-BOOST_AUTO_TEST_CASE(CopyConstructerCreatesIdenticalObject)
+BOOST_AUTO_TEST_CASE(CopyConstructerCreatesIdenticalObjectWithPointer)
 {
     PropertyLocation* location = new PropertyLocation();
     location->SetCity("Ipsheim");
@@ -184,6 +184,34 @@ BOOST_AUTO_TEST_CASE(CopyConstructerCreatesIdenticalObject)
 
     delete location;
     delete copiedObject;
+}
+
+BOOST_AUTO_TEST_CASE(AssignmentOperatorCreatesIdenticalObject)
+{
+    PropertyLocation location;
+    location.SetCity("Ipsheim");
+    location.SetGeoLatitude("1,0");
+    location.SetGeoLongitude("2,0");
+    location.SetIntersection("intersection");
+    location.SetLocation("Ipsheim");
+    location.SetProperty("Wohnhaus");
+    location.SetStreet("Waldstr.");
+    location.SetStreetNumber("46");
+    location.SetZipCode("91472");
+
+    PropertyLocation copiedObject = location;
+
+    BOOST_CHECK(&location != &copiedObject);
+    
+    BOOST_CHECK(location.GetCity() == copiedObject.GetCity());
+    BOOST_CHECK(location.GetGeoLatitude() == copiedObject.GetGeoLatitude());
+    BOOST_CHECK(location.GetGeoLongitude() == copiedObject.GetGeoLongitude());
+    BOOST_CHECK(location.GetIntersection() == copiedObject.GetIntersection());
+    BOOST_CHECK(location.GetLocation() == copiedObject.GetLocation());
+    BOOST_CHECK(location.GetProperty() == copiedObject.GetProperty());
+    BOOST_CHECK(location.GetStreet() == copiedObject.GetStreet());
+    BOOST_CHECK(location.GetStreetNumber() == copiedObject.GetStreetNumber());
+    BOOST_CHECK(location.GetZipCode() == copiedObject.GetZipCode());
 }
 
 BOOST_AUTO_TEST_CASE(CompareEqualToTrue)

@@ -229,13 +229,19 @@ void ParserUtility::AnalyzeStreetLine(const string& line, string& street, string
                 {
                     boost::smatch::const_reference r = digitMatches["Group"];
                     begin = r.second;
+                    
+                    streetNumber = digitMatches.str();
                 }
 
                 // now digitMatches contains the last occurence
-                streetNumber = digitMatches.str();
                 boost::algorithm::trim(streetNumber);
 
-                boost::algorithm::replace_all(workingLine, digitMatches.str(), "");
+                // remove all characters from found number to the end
+                string::size_type foundIndex = workingLine.find(streetNumber);
+                if(foundIndex != string::npos)
+                {
+                    workingLine.erase(foundIndex);
+                }
             }
         }
         else
@@ -253,7 +259,7 @@ void ParserUtility::AnalyzeStreetLine(const string& line, string& street, string
     }
     else if(matches == false)
     {
-        boost::regex streetNumberRegex("\\d+[ ]*[a-z]*");
+        boost::regex streetNumberRegex("\\d+[ ]*[a-zA-Z]*");
         bool matchesStreetNumber = boost::regex_search(workingLine, str_matches, streetNumberRegex);
 
         if(matchesStreetNumber == false)
