@@ -45,11 +45,11 @@ private:
     string zielortZusatz;
     string zielortStation;
     string operationNumber;
-    PropertyLocation einsatzort;
-    PropertyLocation zielort;
     string messenger;
     string priority;
     string comment;
+    PropertyLocation einsatzort;
+    PropertyLocation zielort;
     OperationKeywords keywords;
 
 public:
@@ -159,9 +159,7 @@ public:
     PropertyLocation& GetEinsatzort();
 
     PropertyLocation& GetZielort();
-
-    void SetZielort(PropertyLocation& location);
-
+    
     string GetMessenger();
 
     void SetMessenger(const string messenger);
@@ -173,6 +171,8 @@ public:
     OperationKeywords& GetKeywords();
 
     void AddResource(OperationResource *resource);
+    
+    const vector<OperationResource*>& GetResources() const;
 
     /**
      * @brief Gets the comment text. Usually this contains

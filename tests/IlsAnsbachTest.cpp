@@ -42,8 +42,11 @@ BOOST_AUTO_TEST_CASE( ParseFileWithExistingFile )
     IlsAnsbach* parser = new IlsAnsbach();
     IOperation* result = parser->Parse(filename);
 
-    boost::filesystem::remove(filename);
-
+    if(boost::filesystem::exists(filename))
+    {
+        boost::filesystem::remove(filename);
+    }
+    
     std::cout << *result << std::endl;
     
     BOOST_CHECK(result != nullptr);

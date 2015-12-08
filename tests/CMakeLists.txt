@@ -50,6 +50,10 @@ add_executable(${PROJECT_NAME}_PropertyLocation TestRunner.cpp PropertyLocationT
 target_link_libraries(${PROJECT_NAME}_PropertyLocation PRIVATE faxparser ${Boost_LIBRARIES})
 add_test(NAME PropertyLocation COMMAND ${PROJECT_NAME}_PropertyLocation)
 
+add_executable(${PROJECT_NAME}_Operation TestRunner.cpp OperationTest.cpp ) 
+target_link_libraries(${PROJECT_NAME}_Operation PRIVATE faxparser ${Boost_LIBRARIES})
+add_test(NAME Operation COMMAND ${PROJECT_NAME}_Operation)
+
 add_executable(${PROJECT_NAME}_OperationKeywords TestRunner.cpp OperationKeywordsTest.cpp ) 
 target_link_libraries(${PROJECT_NAME}_OperationKeywords PRIVATE faxparser ${Boost_LIBRARIES})
 add_test(NAME OperationKeywords COMMAND ${PROJECT_NAME}_OperationKeywords)

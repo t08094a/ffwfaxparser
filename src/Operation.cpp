@@ -21,6 +21,8 @@
 #include <algorithm>
 #include <functional>
 #include <sstream>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
 // this is a function object to delete a pointer matching our criteria.
@@ -34,7 +36,8 @@ struct resource_deleter
 };
 
 Operation::Operation()
-    : resources(), einsatzort(), zielort()
+    : resources(), id(0), guid(boost::uuids::random_generator()()), timestampIncome(boost::posix_time::second_clock::local_time()), timestamp(timestampIncome),
+      einsatzort(), zielort(), keywords()
 {
     // nop
 }
@@ -279,6 +282,11 @@ void Operation::AddResource(OperationResource* resource)
     resources.push_back(resource);
 }
 
+const vector<OperationResource*>& Operation::GetResources() const
+{
+    return resources;
+}
+
 OperationKeywords& Operation::GetKeywords()
 {
     return keywords;
@@ -294,10 +302,9 @@ PropertyLocation& Operation::GetZielort()
     return zielort;
 }
 
-std::string Operation::ToString() const
+string Operation::ToString() const
 {
-    // todo: vollständig machen
-    std::stringstream ss;
+    stringstream ss;
     
     ss << "Operation:" << endl;
     ss << "\t" << "id: " << id << endl;
@@ -306,20 +313,23 @@ std::string Operation::ToString() const
     ss << "\t" << "timestamp: " << timestamp << endl;
     ss << "\t" << "absender: " << absender << endl;
     ss << "\t" << "termin: " << termin << endl;
+    ss << "\t" << "einsatzort: " << einsatzort.ToString() << endl;
     ss << "\t" << "einsatzortZusatz: " << einsatzortZusatz << endl;
     ss << "\t" << "einsatzortPlannummer: " << einsatzortPlannummer << endl;
     ss << "\t" << "einsatzortStation: " << einsatzortStation << endl;
     ss << "\t" << "operationNumber: " << operationNumber << endl;
-    ss << "\t" << "einsatzort: " << einsatzort << endl;
     ss << "\t" << "messenger: " << messenger << endl;
     ss << "\t" << "priority: " << priority << endl;
     ss << "\t" << "comment: " << comment << endl;
-    ss << "\t" << "keywords: " << keywords << endl;
+    ss << "\t" << "keywords: " << keywords.ToString() << endl;
+    ss << "\t" << "zielort: " << zielort.ToString() << endl;
+    ss << "\t" << "zielortStation: " << zielortStation << endl;
+    ss << "\t" << "zielortZusatz: " << zielortZusatz << endl;
     ss << "\t" << "resources: " << endl;
     
-    for(auto resource : resources)
+    for(OperationResource* resource : resources)
     {
-        ss << "\t\t" << resource << endl;
+        ss << "\t\t" << *resource << endl;
     }
     
     return ss.str();

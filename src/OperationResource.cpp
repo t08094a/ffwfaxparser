@@ -94,14 +94,24 @@ string OperationResource::ToString() const
 {
     stringstream ss;
     
-    ss << "Resource: " << fullName << endl;
-    ss << "\t" << "Time: " << timestamp << endl;
-    ss << "\t" << "Equipment:" << endl;
+    ss << fullName;
+    ss << "\t(" << "Time: " << timestamp;
+    ss << "\t" << "Equipments:";
     
+    size_t i = 1;
     for(string s : requestedEquipment)
     {
-        ss << "\t\t" << s << endl;
+        ss << s;
+        
+        if(i < requestedEquipment.size())
+        {
+            ss << ", ";
+        }
+        
+        i++;
     }
+    
+    ss << ")";
     
     return ss.str();
 }

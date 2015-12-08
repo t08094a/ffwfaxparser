@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( ReadFaxTimestampResultsInFallback )
     BOOST_CHECK(fallback == result);
 }
 
-BOOST_AUTO_TEST_CASE( AppendLineToString)
+BOOST_AUTO_TEST_CASE( AppendLineToString )
 {
     std::string value = "abc";
     
@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE( AppendLineToString)
 }
 
 
-BOOST_AUTO_TEST_CASE( AppendEmptyStringShouldResultInNotModifiedString)
+BOOST_AUTO_TEST_CASE( AppendEmptyStringShouldResultInNotModifiedString )
 {
     std::string value = "abc";
     
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE( AppendEmptyStringShouldResultInNotModifiedString)
     BOOST_CHECK(expected == value);
 }
 
-BOOST_AUTO_TEST_CASE( LineStartsWithKeywordResultsInTrue)
+BOOST_AUTO_TEST_CASE( LineStartsWithKeywordResultsInTrue )
 {
     std::string line = "VU 1";
     std::vector<std::string> keywords { "THL", "VU" };
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE( LineStartsWithKeywordResultsInTrue)
     BOOST_CHECK("VU" == foundKeyword);
 }
 
-BOOST_AUTO_TEST_CASE( LineStartsNotWithKeywordResultsInFalse)
+BOOST_AUTO_TEST_CASE( LineStartsNotWithKeywordResultsInFalse )
 {
     std::string line = "Technische Hilfe klein";
     std::vector<std::string> keywords { "THL", "VU" };
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE( LineStartsNotWithKeywordResultsInFalse)
     BOOST_CHECK("" == foundKeyword);
 }
 
-BOOST_AUTO_TEST_CASE( GetMessageTextResultsInVuMitPkw)
+BOOST_AUTO_TEST_CASE( GetMessageTextResultsInVuMitPkw )
 {
     std::string line = "Schlagw. : VU mit PKW";
     std::string keyword = "Schlagw.";
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE( GetMessageTextResultsInVuMitPkw)
     BOOST_CHECK(expected == result);
 }
 
-BOOST_AUTO_TEST_CASE( GetMessageTextWithoutKeywordResultsInVuMitPkw)
+BOOST_AUTO_TEST_CASE( GetMessageTextWithoutKeywordResultsInVuMitPkw )
 {
     std::string line = "VU mit PKW";
     std::string expected = "VU mit PKW";
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE( GetMessageTextWithoutKeywordResultsInVuMitPkw)
     BOOST_CHECK(expected == result);
 }
 
-BOOST_AUTO_TEST_CASE( GetMessageTextWithMissingKeywordResultsInVuMitPkw)
+BOOST_AUTO_TEST_CASE( GetMessageTextWithMissingKeywordResultsInVuMitPkw )
 {
     std::string line = "VU mit PKW";
     std::string keyword = "Schlagw.";
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE( GetMessageTextWithMissingKeywordResultsInVuMitPkw)
     BOOST_CHECK(expected == result);
 }
 
-BOOST_AUTO_TEST_CASE( GetMessageTextWithKeywordAndTimestampResultsInTimestamp)
+BOOST_AUTO_TEST_CASE( GetMessageTextWithKeywordAndTimestampResultsInTimestamp )
 {
     std::string line = "Alarmiert                       : 13.09.2015 11:36";
     std::string keyword = "Alarmiert";
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE( GetMessageTextWithKeywordAndTimestampResultsInTimestamp)
     BOOST_CHECK(expected == result);
 }
 
-BOOST_AUTO_TEST_CASE( GetMessageTextWithEmptyKeywordAndTimestampResultsInTimestamp)
+BOOST_AUTO_TEST_CASE( GetMessageTextWithEmptyKeywordAndTimestampResultsInTimestamp )
 {
     std::string line = "Alarmiert                       : 13.09.2015 11:36";
     std::string keyword = "";
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE( GetMessageTextWithEmptyKeywordAndTimestampResultsInTimesta
     BOOST_CHECK(expected == result);
 }
 
-BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityResultsIn91472)
+BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityResultsIn91472 )
 {
     std::string city = "91472 Ipsheim";
 
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityResultsIn91472)
     BOOST_CHECK("91472" == result);
 }
 
-BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityWithLeadingWhitespaceResultsIn91472)
+BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityWithLeadingWhitespaceResultsIn91472 )
 {
     std::string city = "   91472 Ipsheim";
 
@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityWithLeadingWhitespaceResultsIn91472)
     BOOST_CHECK("91472" == result);
 }
 
-BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityWithWrongContentResultsInEmptyResult)
+BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityWithWrongContentResultsInEmptyResult )
 {
     std::string city = "Ipsheim";
 
@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_CASE( ReadZipCodeFromCityWithWrongContentResultsInEmptyResult)
     BOOST_CHECK("" == result);
 }
 
-BOOST_AUTO_TEST_CASE( GetTimestampFromMessage)
+BOOST_AUTO_TEST_CASE( GetTimestampFromMessage )
 {
     std::string timestamp = "13.09.2015 11:36";
     boost::posix_time::ptime fallback(boost::gregorian::date(2002, 1, 10), boost::posix_time::time_duration(1, 2, 3));
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE( GetTimestampFromMessage)
     BOOST_CHECK(expected == result);
 }
 
-BOOST_AUTO_TEST_CASE( GetTimestampFromMessageOnlyWithDateResultsInCorrectDate)
+BOOST_AUTO_TEST_CASE( GetTimestampFromMessageOnlyWithDateResultsInCorrectDate )
 {
     std::string timestamp = "13.09.2015";
     boost::posix_time::ptime fallback(boost::gregorian::date(2002, 1, 10), boost::posix_time::time_duration(1, 2, 3));
@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE( GetTimestampFromMessageOnlyWithDateResultsInCorrectDate)
     BOOST_CHECK(expected == result);
 }
 
-BOOST_AUTO_TEST_CASE( GetTimestampFromMessageWithAbcResultsInFallback)
+BOOST_AUTO_TEST_CASE( GetTimestampFromMessageWithAbcResultsInFallback )
 {
     std::string timestamp = "abc";
     boost::posix_time::ptime fallback(boost::gregorian::date(2002, 1, 10), boost::posix_time::time_duration(1, 2, 3));
@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_CASE( GetTimestampFromMessageWithAbcResultsInFallback)
     BOOST_CHECK(fallback == result);
 }
 
-BOOST_AUTO_TEST_CASE( GetTimestampFromMessageWithEmptyStringResultsInFallback)
+BOOST_AUTO_TEST_CASE( GetTimestampFromMessageWithEmptyStringResultsInFallback )
 {
     std::string timestamp = "";
     boost::posix_time::ptime fallback(boost::gregorian::date(2002, 1, 10), boost::posix_time::time_duration(1, 2, 3));
@@ -195,7 +195,7 @@ BOOST_AUTO_TEST_CASE( GetTimestampFromMessageWithEmptyStringResultsInFallback)
     BOOST_CHECK(fallback == result);
 }
 
-BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithLineFeedResultsInDeletedLineFeed)
+BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithLineFeedResultsInDeletedLineFeed )
 {
     std::string line = "VU mit PKW\n";
     std::string expected = "VU mit PKW";
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithLineFeedResultsInDeletedLineFeed)
     BOOST_CHECK(expected == line);
 }
 
-BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithoutLineFeedResultsInSameValue)
+BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithoutLineFeedResultsInSameValue )
 {
     std::string line = "VU mit PKW";
     std::string expected = "VU mit PKW";
@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithoutLineFeedResultsInSameValue)
     BOOST_CHECK(expected == line);
 }
 
-BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithInnerLineFeedResultsInSameValue)
+BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithInnerLineFeedResultsInSameValue )
 {
     std::string line = "VU mit\n PKW";
     std::string expected = "VU mit\n PKW";
@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithInnerLineFeedResultsInSameValue)
     BOOST_CHECK(expected == line);
 }
 
-BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithOnlySpacesResultsInEmptyValue)
+BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithOnlySpacesResultsInEmptyValue )
 {
     std::string line = "  ";
     std::string expected = "  ";
@@ -235,7 +235,7 @@ BOOST_AUTO_TEST_CASE( RemoveTrailingNewlineWithOnlySpacesResultsInEmptyValue)
     BOOST_CHECK(expected == line);
 }
 
-BOOST_AUTO_TEST_CASE( AnalyzeStreetLineResultsInCorrectStreet)
+BOOST_AUTO_TEST_CASE( AnalyzeStreetLineResultsInCorrectStreet )
 {
     std::string message = "Straße       : Oberndorfer Straße           Haus-Nr.: 12a";
     std::string street;
@@ -249,7 +249,7 @@ BOOST_AUTO_TEST_CASE( AnalyzeStreetLineResultsInCorrectStreet)
     BOOST_CHECK("" == appendix);
 }
 
-BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithFreewayResultsInCorrectStreet)
+BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithFreewayResultsInCorrectStreet )
 {
     std::string message = "Straße       : B470           Haus-Nr./Km: 3";
     std::string street;
@@ -263,7 +263,7 @@ BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithFreewayResultsInCorrectStreet)
     BOOST_CHECK("" == appendix);
 }
 
-BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithFreewayWithoutHausNrResultsInCorrectStreet)
+BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithFreewayWithoutHausNrResultsInCorrectStreet )
 {
     std::string message = "Straße       : B470  ";
     std::string street;
@@ -277,7 +277,7 @@ BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithFreewayWithoutHausNrResultsInCorrectS
     BOOST_CHECK("" == appendix);
 }
 
-BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithoutHausNrResultsInCorrectStreet)
+BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithoutHausNrResultsInCorrectStreet )
 {
     std::string message = "Straße       : Oberndorfer Straße       ";
     std::string street;
@@ -291,7 +291,7 @@ BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithoutHausNrResultsInCorrectStreet)
     BOOST_CHECK("" == appendix);
 }
 
-BOOST_AUTO_TEST_CASE( AnalyzeStreetLineB470WithKmValueResultsInCorrectStreet)
+BOOST_AUTO_TEST_CASE( AnalyzeStreetLineB470WithKmValueResultsInCorrectStreet )
 {
     std::string message = "Straße       : B470    366 km";
     std::string street;
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_CASE( AnalyzeStreetLineB470WithKmValueResultsInCorrectStreet)
     BOOST_CHECK("" == appendix);
 }
 
-BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithHausNrAppendixResultsInCorrectStreet)
+BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithHausNrAppendixResultsInCorrectStreet )
 {
     std::string message = "Straße       : Oberndorfer Straße 1a Erdgeschoss";
     std::string street;
@@ -319,7 +319,7 @@ BOOST_AUTO_TEST_CASE( AnalyzeStreetLineWithHausNrAppendixResultsInCorrectStreet)
     BOOST_CHECK("Erdgeschoss" == appendix);
 }
 
-BOOST_AUTO_TEST_CASE( A7ResultsInHighwayIsTrue)
+BOOST_AUTO_TEST_CASE( A7ResultsInHighwayIsTrue )
 {
     std::string line = "Straße       : A7";
 
@@ -328,7 +328,7 @@ BOOST_AUTO_TEST_CASE( A7ResultsInHighwayIsTrue)
     BOOST_CHECK(true == result);
 }
 
-BOOST_AUTO_TEST_CASE( B470ResultsInHighwayIsTrue)
+BOOST_AUTO_TEST_CASE( B470ResultsInHighwayIsTrue )
 {
     std::string line = "Straße       : B470";
 
@@ -337,7 +337,7 @@ BOOST_AUTO_TEST_CASE( B470ResultsInHighwayIsTrue)
     BOOST_CHECK(true == result);
 }
 
-BOOST_AUTO_TEST_CASE( St2252ResultsInHighwayIsTrue)
+BOOST_AUTO_TEST_CASE( St2252ResultsInHighwayIsTrue )
 {
     std::string line = "Straße       : St2252";
 
@@ -346,7 +346,7 @@ BOOST_AUTO_TEST_CASE( St2252ResultsInHighwayIsTrue)
     BOOST_CHECK(true == result);
 }
 
-BOOST_AUTO_TEST_CASE( ST2252ResultsInHighwayIsTrue)
+BOOST_AUTO_TEST_CASE( ST2252ResultsInHighwayIsTrue )
 {
     std::string line = "Straße       : ST2252";
 
@@ -355,7 +355,7 @@ BOOST_AUTO_TEST_CASE( ST2252ResultsInHighwayIsTrue)
     BOOST_CHECK(true == result);
 }
 
-BOOST_AUTO_TEST_CASE( NormalStreetResultsInHighwayIsFalse)
+BOOST_AUTO_TEST_CASE( NormalStreetResultsInHighwayIsFalse )
 {
     std::string line = "Straße       : Oberndorfer Straße           Haus-Nr.: 12a";
 
@@ -364,7 +364,7 @@ BOOST_AUTO_TEST_CASE( NormalStreetResultsInHighwayIsFalse)
     BOOST_CHECK(false == result);
 }
 
-BOOST_AUTO_TEST_CASE( TrimStringVectorResultsInTrimmedLines)
+BOOST_AUTO_TEST_CASE( TrimStringVectorResultsInTrimmedLines )
 {
     std::vector<std::string> lines;
     lines.push_back(" abc   ");
