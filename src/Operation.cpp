@@ -287,17 +287,32 @@ const vector<OperationResource*>& Operation::GetResources() const
     return resources;
 }
 
-OperationKeywords& Operation::GetKeywords()
+IKeywords& Operation::GetKeywords()
 {
     return keywords;
 }
 
-PropertyLocation& Operation::GetEinsatzort()
+OperationKeywords& Operation::GetKeywordsInternal()
+{
+    return keywords;
+}
+
+ILocation& Operation::GetEinsatzort()
 {
     return einsatzort;
 }
 
-PropertyLocation& Operation::GetZielort()
+PropertyLocation& Operation::GetEinsatzortInternal()
+{
+    return einsatzort;
+}
+
+ILocation& Operation::GetZielort()
+{
+    return zielort;
+}
+
+PropertyLocation& Operation::GetZielortInternal()
 {
     return zielort;
 }

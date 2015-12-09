@@ -22,14 +22,14 @@
 
 #include <string>
 #include <iostream>
-#include "IPrintable.h"
+#include "IKeywords.h"
 
 using namespace std;
 
 /**
  * @brief Contains the keywords ("stichwörter") for an operation.
  */
-class OperationKeywords : public IPrintable
+class OperationKeywords : public IKeywords
 {
 private:
     string keyword;
@@ -47,13 +47,6 @@ public:
     bool operator== ( const OperationKeywords& other ) const;
     bool operator!= (const OperationKeywords& other) const;
     
-    friend ostream& operator<< (ostream& out, const OperationKeywords& keywords)
-    {
-        out << keywords.ToString();
-        
-        return out;
-    }
-        
     /**
      * @brief Gets the "Stichwort" (generic keyword), direct or equivalent.
      * @return

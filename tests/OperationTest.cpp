@@ -281,19 +281,19 @@ BOOST_AUTO_TEST_CASE( ToStringReturnsAllContent )
     operation.SetZielortZusatz("Sackgasse");
     operation.AddResource(resource1);
     
-    PropertyLocation& einsatzort = operation.GetEinsatzort();
+    PropertyLocation& einsatzort = operation.GetEinsatzortInternal();
     einsatzort.SetStreet("Hauptstraße");
     einsatzort.SetStreetNumber("1a");
     einsatzort.SetZipCode("91472");
     einsatzort.SetCity("Ipsheim");
     
-    PropertyLocation& zielort = operation.GetZielort();
+    PropertyLocation& zielort = operation.GetZielortInternal();
     zielort.SetStreet("Hauptstraße");
     zielort.SetStreetNumber("1a");
     zielort.SetZipCode("91472");
     zielort.SetCity("Ipsheim");
     
-    OperationKeywords& keywords = operation.GetKeywords();
+    OperationKeywords& keywords = operation.GetKeywordsInternal();
     keywords.SetB("B");
     keywords.SetR("R");
     keywords.SetS("S");

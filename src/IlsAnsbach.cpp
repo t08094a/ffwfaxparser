@@ -162,7 +162,7 @@ IOperation* IlsAnsbach::Parse(vector<string> lines)
 
             case CurrentSection::CEinsatzort:
             {
-                PropertyLocation& einsatzort = operation->GetEinsatzort();
+                PropertyLocation& einsatzort = operation->GetEinsatzortInternal();
 
                 if(prefix == "STRAßE")
                 {
@@ -221,7 +221,7 @@ IOperation* IlsAnsbach::Parse(vector<string> lines)
 
             case CurrentSection::DZielort:
             {
-                PropertyLocation& zielort = operation->GetZielort();
+                PropertyLocation& zielort = operation->GetZielortInternal();
 
                 if(prefix == "STRAßE")
                 {
@@ -256,7 +256,7 @@ IOperation* IlsAnsbach::Parse(vector<string> lines)
 
             case CurrentSection::EEinsatzgrund:
             {
-                OperationKeywords& keywords = operation->GetKeywords();
+                OperationKeywords& keywords = operation->GetKeywordsInternal();
 
                 if(prefix =="SCHLAGW.")
                 {

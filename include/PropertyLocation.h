@@ -23,10 +23,11 @@
 #include <string>
 #include <iostream>
 #include "IPrintable.h"
+#include "ILocation.h"
 
 using namespace std;
 
-class PropertyLocation : public IPrintable
+class PropertyLocation : public ILocation
 {
 private:
     string location;
@@ -46,13 +47,6 @@ public:
     PropertyLocation& operator= ( const PropertyLocation& other );
     bool operator== ( const PropertyLocation& other ) const;
     bool operator!= (const PropertyLocation& other) const;
-    
-    friend ostream& operator<< (ostream& out, const PropertyLocation& location)
-    {
-        out << location.ToString();
-        
-        return out;
-    }
     
     /**
      * @brief Gets the location name.

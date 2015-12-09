@@ -5,6 +5,8 @@
 #include <fstream>
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
 #include "../include/PropertyLocation.h"
 #include "../include/IlsAnsbach.h"
 #include "../include/IOperation.h"
@@ -39,9 +41,13 @@ BOOST_AUTO_TEST_CASE( ParseFileWithExistingFile )
 {
     const std::string filename = CreateTemporaryFile(GetFaxContent1);
     
-    IlsAnsbach* parser = new IlsAnsbach();
-    IOperation* result = parser->Parse(filename);
-
+    IlsAnsbach parser;
+    IOperation* result = parser.Parse(filename);
+    
+    ILocation& einsatzort = result->GetEinsatzort();
+    ILocation& zielort = result->GetZielort();
+    IKeywords& keywords = result->GetKeywords();
+    
     if(boost::filesystem::exists(filename))
     {
         boost::filesystem::remove(filename);
@@ -49,11 +55,64 @@ BOOST_AUTO_TEST_CASE( ParseFileWithExistingFile )
     
     std::cout << *result << std::endl;
     
+    boost::posix_time::ptime expectedTimestamp(boost::gregorian::date(2015, boost::gregorian::Aug, 29), boost::posix_time::time_duration(14, 35, 0));
+    boost::posix_time::ptime lowestTimestampIncome(boost::posix_time::second_clock::local_time() - boost::posix_time::seconds(1));
+    boost::posix_time::ptime highestTimestampIncome(boost::posix_time::second_clock::local_time() + boost::posix_time::seconds(1));
+        
     BOOST_CHECK(result != nullptr);
+    BOOST_CHECK(expectedTimestamp == result->GetTimestamp());
+    BOOST_CHECK("ILS ANSBACH" == result->GetAbsender());
+    BOOST_CHECK("" == result->GetComment());
     
+    BOOST_CHECK("Ipsheim" == einsatzort.GetCity());
+    BOOST_CHECK("" == einsatzort.GetGeoLatitude());
+    BOOST_CHECK("" == einsatzort.GetGeoLongitude());
+    BOOST_CHECK("" == einsatzort.GetIntersection());
+    BOOST_CHECK("" == einsatzort.GetLocation());
+    BOOST_CHECK("5.1.3 NEA Feuerwehrgerätehaus Ipsheim" == einsatzort.GetProperty());
+    BOOST_CHECK("Marktplatz" == einsatzort.GetStreet());
+    BOOST_CHECK("0" == einsatzort.GetStreetNumber());
+    BOOST_CHECK("91472" == einsatzort.GetZipCode());
+    BOOST_CHECK(false == einsatzort.HasGeoCoordinates());
+    BOOST_CHECK(true == einsatzort.IsMeaningful());
+    
+    BOOST_CHECK("" == result->GetEinsatzortPlannummer());
+    BOOST_CHECK("" == result->GetEinsatzortStation());
+    BOOST_CHECK("FW" == result->GetEinsatzortZusatz());
+    BOOST_CHECK(0 == result->GetId());
+        
+    BOOST_CHECK("Technische Hilfe klein !!!" == keywords.GetKeyword());
+    BOOST_CHECK("" == keywords.GetEmergencyKeyword());
+    BOOST_CHECK("" == keywords.GetB());
+    BOOST_CHECK("" == keywords.GetR());
+    BOOST_CHECK("" == keywords.GetS());
+    BOOST_CHECK("THL 1" == keywords.GetT());
+    
+    BOOST_CHECK("" == result->GetMessenger());
+    BOOST_CHECK("T 5.1 150829 1383" == result->GetOperationNumber());
+    BOOST_CHECK("1" == result->GetPriority());
+    BOOST_CHECK(0 == result->GetResources().size());
+    BOOST_CHECK("." == result->GetTermin());
+    BOOST_CHECK(expectedTimestamp == result->GetTimestamp());
+    BOOST_CHECK(lowestTimestampIncome <= result->GetTimestampIncome());
+    BOOST_CHECK(highestTimestampIncome >= result->GetTimestampIncome());
+    
+    BOOST_CHECK("" == zielort.GetCity());
+    BOOST_CHECK("" == zielort.GetGeoLatitude());
+    BOOST_CHECK("" == zielort.GetGeoLongitude());
+    BOOST_CHECK("" == zielort.GetIntersection());
+    BOOST_CHECK("" == zielort.GetLocation());
+    BOOST_CHECK("" == zielort.GetProperty());
+    BOOST_CHECK("" == zielort.GetStreet());
+    BOOST_CHECK("1" == zielort.GetStreetNumber()); // ??? sollte eigentlich leer sein
+    BOOST_CHECK("" == zielort.GetZipCode());
+    BOOST_CHECK(false == zielort.HasGeoCoordinates());
+    BOOST_CHECK(false == zielort.IsMeaningful());
+    
+    BOOST_CHECK("" == result->GetZielortStation());
+    BOOST_CHECK("" == result->GetZielortZusatz());
     
     delete result;
-    delete parser;
 }
 
 

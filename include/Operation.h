@@ -128,6 +128,10 @@ public:
      */
     void SetAbsender(const string value);
 
+    /**
+     * @brief Adds the absender value.
+     * @param value
+     */
     string GetTermin();
 
     void SetTermin(const string termin);
@@ -156,9 +160,13 @@ public:
 
     void SetOperationNumber(const string number);
 
-    PropertyLocation& GetEinsatzort();
+    PropertyLocation& GetEinsatzortInternal();
+    
+    ILocation& GetEinsatzort();
 
-    PropertyLocation& GetZielort();
+    PropertyLocation& GetZielortInternal();
+    
+    ILocation& GetZielort();
     
     string GetMessenger();
 
@@ -168,7 +176,9 @@ public:
 
     void SetPriority(string priority);
 
-    OperationKeywords& GetKeywords();
+    IKeywords& GetKeywords();
+    
+    OperationKeywords& GetKeywordsInternal();
 
     void AddResource(OperationResource *resource);
     
