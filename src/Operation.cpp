@@ -25,16 +25,6 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-// this is a function object to delete a pointer matching our criteria.
-struct resource_deleter
-{
-    void operator()(OperationResource*& e) // important to take pointer by reference!
-    {
-        delete e;
-        e = nullptr;
-    }
-};
-
 Operation::Operation()
     : resources(), id(0), guid(boost::uuids::random_generator()()), timestampIncome(boost::posix_time::second_clock::local_time()), timestamp(timestampIncome),
       einsatzort(), zielort(), keywords()
@@ -67,11 +57,7 @@ Operation::Operation (const Operation& other)
 
 Operation::~Operation()
 {
-    // now, apply resource_deleter to each element, remove the elements that were deleted,
-    // and erase them from the vector
-    for_each(resources.begin(), resources.end(), resource_deleter());
-    vector<OperationResource*>::iterator new_end = remove(resources.begin(), resources.end(), static_cast<OperationResource*>(NULL));
-    resources.erase(new_end, resources.end());
+    // nop
 }
 
 Operation& Operation::operator= (const Operation& other)
@@ -279,10 +265,10 @@ void Operation::SetComment(const string comment)
 
 void Operation::AddResource(OperationResource* resource)
 {
-    resources.push_back(resource);
+    resources.push_back(shared_ptr<OperationResource>(resource));
 }
 
-const vector<OperationResource*>& Operation::GetResources() const
+const vector<shared_ptr<OperationResource>>& Operation::GetResources() const
 {
     return resources;
 }
@@ -342,7 +328,7 @@ string Operation::ToString() const
     ss << "\t" << "zielortZusatz: " << zielortZusatz << endl;
     ss << "\t" << "resources: " << endl;
     
-    for(OperationResource* resource : resources)
+    for(auto resource : resources)
     {
         ss << "\t\t" << *resource << endl;
     }

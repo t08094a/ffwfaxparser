@@ -85,7 +85,7 @@ bool PropertyLocation::operator!= (const PropertyLocation& other) const
     return ! operator==(other);
 }
 
-string PropertyLocation::GetLocation()
+string PropertyLocation::GetLocation() const
 {
     return location;
 }
@@ -96,7 +96,7 @@ void PropertyLocation::SetLocation(const string location)
     boost::trim(this->location);
 }
 
-string PropertyLocation::GetZipCode()
+string PropertyLocation::GetZipCode() const
 {
     return zipCode;
 }
@@ -107,7 +107,7 @@ void PropertyLocation::SetZipCode(const string zipCode)
     boost::trim(this->zipCode);
 }
 
-string PropertyLocation::GetCity()
+string PropertyLocation::GetCity() const
 {
     return city;
 }
@@ -118,7 +118,7 @@ void PropertyLocation::SetCity(const string city)
     boost::trim(this->city);
 }
 
-string PropertyLocation::GetStreet()
+string PropertyLocation::GetStreet() const
 {
     return street;
 }
@@ -129,7 +129,7 @@ void PropertyLocation::SetStreet(const string street)
     boost::trim(this->street);
 }
 
-string PropertyLocation::GetStreetNumber()
+string PropertyLocation::GetStreetNumber() const
 {
     return streetNumber;
 }
@@ -140,7 +140,7 @@ void PropertyLocation::SetStreetNumber(const string number)
     boost::trim(this->streetNumber);
 }
 
-string PropertyLocation::GetIntersection()
+string PropertyLocation::GetIntersection() const
 {
     return intersection;
 }
@@ -151,7 +151,7 @@ void PropertyLocation::SetIntersection(const string intersection)
     boost::trim(this->intersection);
 }
 
-string PropertyLocation::GetGeoLatitude()
+string PropertyLocation::GetGeoLatitude() const
 {
     return geoLatitude;
 }
@@ -162,7 +162,7 @@ void PropertyLocation::SetGeoLatitude(const string latitude)
     boost::trim(this->geoLatitude);
 }
 
-string PropertyLocation::GetGeoLongitude()
+string PropertyLocation::GetGeoLongitude() const
 {
     return geoLongitude;
 }
@@ -173,7 +173,7 @@ void PropertyLocation::SetGeoLongitude(const string longitude)
     boost::trim(this->geoLongitude);
 }
 
-string PropertyLocation::GetProperty()
+string PropertyLocation::GetProperty() const
 {
     return property;
 }
@@ -184,12 +184,12 @@ void PropertyLocation::SetProperty(const string property)
     boost::trim(this->property);
 }
 
-bool PropertyLocation::IsMeaningful()
+bool PropertyLocation::IsMeaningful() const
 {
     return zipCode.empty() == false || city.empty() == false || street.empty() == false;
 }
 
-bool PropertyLocation::HasGeoCoordinates()
+bool PropertyLocation::HasGeoCoordinates() const
 {
     return geoLatitude.empty() == false || geoLongitude.empty() == false;
 }

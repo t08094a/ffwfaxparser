@@ -32,7 +32,7 @@ using namespace std;
 class Operation : public IOperation
 {
 private:
-    vector<OperationResource*> resources;
+    vector<shared_ptr<OperationResource>> resources;
     int id;
     boost::uuids::uuid guid;
     boost::posix_time::ptime timestampIncome;
@@ -182,7 +182,7 @@ public:
 
     void AddResource(OperationResource *resource);
     
-    const vector<OperationResource*>& GetResources() const;
+    const vector<shared_ptr<OperationResource>>& GetResources() const;
 
     /**
      * @brief Gets the comment text. Usually this contains

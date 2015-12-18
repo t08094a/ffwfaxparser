@@ -44,14 +44,15 @@ public:
     OperationKeywords ( const OperationKeywords& other );
     virtual ~OperationKeywords();
     OperationKeywords& operator= ( const OperationKeywords& other );
-    bool operator== ( const OperationKeywords& other ) const;
+    bool operator== (const OperationKeywords& other) const;
     bool operator!= (const OperationKeywords& other) const;
+    
     
     /**
      * @brief Gets the "Stichwort" (generic keyword), direct or equivalent.
      * @return
      */
-    string GetKeyword();
+    string GetKeyword() const;
 
     /**
      * @brief Sets the "Stichwort" (generic keyword), direct or equivalent.
@@ -63,7 +64,7 @@ public:
      * @brief Gets the B/R/S/T/etc. keyword for sources that don't distinguish between them.
      * @return
      */
-    string GetEmergencyKeyword();
+    string GetEmergencyKeyword() const;
 
     /**
      * @brief Sets the B/R/S/T/etc. keyword for sources that don't distinguish between them.
@@ -75,7 +76,7 @@ public:
      * @brief Gets the "Stichwort B" (specific keyword), direct or equivalent.
      * @return
      */
-    string GetB();
+    string GetB() const;
 
     /**
      * @brief Sets the "Stichwort B" (specific keyword), direct or equivalent.
@@ -87,7 +88,7 @@ public:
      * @brief Gets the "Stichwort R" (specific keyword), direct or equivalent.
      * @return
      */
-    string GetR();
+    string GetR() const;
 
     /**
      * @brief Sets the "Stichwort R" (specific keyword), direct or equivalent.
@@ -99,7 +100,7 @@ public:
      * @brief Gets the "Stichwort S" (specific keyword), direct or equivalent.
      * @return
      */
-    string GetS();
+    string GetS() const;
 
     /**
      * @brief Sets the "Stichwort S" (specific keyword), direct or equivalent.
@@ -111,7 +112,7 @@ public:
      * @brief Gets the "Stichwort T" (specific keyword), direct or equivalent.
      * @return
      */
-    string GetT();
+    string GetT() const;
 
     /**
      * @brief Sets the "Stichwort T" (specific keyword), direct or equivalent.

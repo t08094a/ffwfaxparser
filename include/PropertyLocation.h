@@ -44,6 +44,7 @@ public:
     PropertyLocation();
     PropertyLocation ( const PropertyLocation& other );
     virtual ~PropertyLocation();
+    
     PropertyLocation& operator= ( const PropertyLocation& other );
     bool operator== ( const PropertyLocation& other ) const;
     bool operator!= (const PropertyLocation& other) const;
@@ -52,7 +53,7 @@ public:
      * @brief Gets the location name.
      * @return
      */
-    string GetLocation();
+    string GetLocation() const;
 
     /**
      * @brief Sets the location name.
@@ -64,7 +65,7 @@ public:
      * @brief Gets the zip code of the city.
      * @return
      */
-    string GetZipCode();
+    string GetZipCode() const;
 
     /**
      * @brief Sets the zip code of the city.
@@ -76,7 +77,7 @@ public:
      * @brief Gets the city name.
      * @return
      */
-    string GetCity();
+    string GetCity() const;
 
     /**
      * @brief Sets the city name.
@@ -88,7 +89,7 @@ public:
      * @brief Gets the street. May contain the street number.
      * @return
      */
-    string GetStreet();
+    string GetStreet() const;
 
     /**
      * @brief Sets the street. May contain the street number.
@@ -100,7 +101,7 @@ public:
      * @brief Gets the street number. May be contained within the street.
      * @return
      */
-    string GetStreetNumber();
+    string GetStreetNumber() const;
 
     /**
      * @brief Sets the street number. May be contained within the street.
@@ -112,7 +113,7 @@ public:
      * @brief Gets a description of the "Intersection" (if provided by alarmsource).
      * @return
      */
-    string GetIntersection();
+    string GetIntersection() const;
 
     /**
      * @brief Sets a description of the "Intersection" (if provided by alarmsource).
@@ -124,7 +125,7 @@ public:
      * @brief Gets the latitude of the location (if provided by alarmsource).
      * @return
      */
-    string GetGeoLatitude();
+    string GetGeoLatitude() const;
 
     /**
      * @brief Sets the latitude of the location (if provided by alarmsource).
@@ -136,7 +137,7 @@ public:
      * @brief Gets the longitude of the location (if provided by alarmsource).
      * @return
      */
-    string GetGeoLongitude();
+    string GetGeoLongitude() const;
 
     /**
      * @brief Sets the longitude of the location (if provided by alarmsource).
@@ -148,7 +149,7 @@ public:
      * @brief Gets the name of the property (company, site, house etc.).
      * @return
      */
-    string GetProperty();
+    string GetProperty() const;
 
     /**
      * @brief Sets the name of the property (company, site, house etc.).
@@ -161,14 +162,14 @@ public:
      *        This takes only ZipCode, City and Street into account.
      * @return
      */
-    bool IsMeaningful();
+    bool IsMeaningful() const;
 
     /**
      * @brief Gets whether or not there are meaningful values for the geo
      *        coordinates (latitude and longitude) defined.
      * @return
      */
-    bool HasGeoCoordinates();
+    bool HasGeoCoordinates() const;
 
     /**
      * @brief Returns a string describing the property location like:

@@ -38,43 +38,53 @@ public:
      * @brief Gets the "Stichwort" (generic keyword), direct or equivalent.
      * @return
      */
-    virtual string GetKeyword() = 0;
+    virtual string GetKeyword() const = 0;
 
     /**
      * @brief Gets the B/R/S/T/etc. keyword for sources that don't distinguish between them.
      * @return
      */
-    virtual string GetEmergencyKeyword() = 0;
+    virtual string GetEmergencyKeyword() const = 0;
     
     /**
      * @brief Gets the "Stichwort B" (specific keyword), direct or equivalent.
      * @return
      */
-    virtual string GetB() = 0;
+    virtual string GetB() const = 0;
     
     /**
      * @brief Gets the "Stichwort R" (specific keyword), direct or equivalent.
      * @return
      */
-    virtual string GetR() = 0;
+    virtual string GetR() const = 0;
     
     /**
      * @brief Gets the "Stichwort S" (specific keyword), direct or equivalent.
      * @return
      */
-    virtual string GetS() = 0;
+    virtual string GetS() const = 0;
     
     /**
      * @brief Gets the "Stichwort T" (specific keyword), direct or equivalent.
      * @return
      */
-    virtual string GetT() = 0;
+    virtual string GetT() const = 0;
     
     /**
      * @brief Returns a string that contains all informations.
      * @return A string that contains all informations.
      */
     virtual std::string ToString() const = 0;
+    
+    bool operator== (const IKeywords& other) const
+    {
+        return this->GetKeyword() == other.GetKeyword() &&
+               this->GetEmergencyKeyword() == other.GetEmergencyKeyword() &&
+               this->GetB() == other.GetB() &&
+               this->GetR() == other.GetR() &&
+               this->GetS() == other.GetS() &&
+               this->GetT() == other.GetT();
+    }
     
     friend ostream& operator<< (ostream& out, const IKeywords& keywords)
     {

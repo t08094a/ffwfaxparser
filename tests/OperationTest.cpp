@@ -1,6 +1,9 @@
 #define BOOST_TEST_DYN_LINK
+
+#include <memory>
 #include <boost/test/unit_test.hpp>
 #include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include "../include/Operation.h"
@@ -253,7 +256,7 @@ BOOST_AUTO_TEST_CASE( AddResourceReturnsCorrectPointer )
     operation.AddResource(resource1);
     
     BOOST_CHECK(1 == operation.GetResources().size());
-    BOOST_CHECK(resource1 == operation.GetResources()[0]);
+    BOOST_CHECK(resource1 == operation.GetResources()[0].get());
     
     // delete resource1; // NOTE: not needed, because the Operation deletes it on dispose
 }
@@ -304,4 +307,92 @@ BOOST_AUTO_TEST_CASE( ToStringReturnsAllContent )
     cout << operation << endl;
     
     // delete resource1; // NOTE: pointer is deleted on destruction of operation
+}
+
+BOOST_AUTO_TEST_CASE( VerifyCopyConstructorCreatesAnEqualObject )
+{
+    OperationResource* resource1 = new OperationResource();
+    resource1->SetFullName("Res1");
+    resource1->SetTimestamp(boost::posix_time::second_clock::local_time());
+    resource1->AddRequestedEquipment("THL");
+    resource1->AddRequestedEquipment("Rauchverschluss");
+    
+    Operation operation;
+    operation.SetId(1);
+    operation.SetAbsender("Klaus");
+    operation.SetTermin("morgen");
+    operation.SetEinsatzortZusatz("Hinterhof");
+    operation.SetEinsatzortPlannummer("443");
+    operation.SetEinsatzortStation("Bahnhof");
+    operation.SetOperationNumber("3");
+    operation.SetMessenger("Heinz");
+    operation.SetPriority("9");
+    operation.SetComment("Eilt");
+    operation.SetZielortStation("Männa");
+    operation.SetZielortZusatz("Sackgasse");
+    operation.AddResource(resource1);
+    
+    PropertyLocation& einsatzort = operation.GetEinsatzortInternal();
+    einsatzort.SetStreet("Hauptstraße");
+    einsatzort.SetStreetNumber("1a");
+    einsatzort.SetZipCode("91472");
+    einsatzort.SetCity("Ipsheim");
+    
+    PropertyLocation& zielort = operation.GetZielortInternal();
+    zielort.SetStreet("Hauptstraße");
+    zielort.SetStreetNumber("1a");
+    zielort.SetZipCode("91472");
+    zielort.SetCity("Ipsheim");
+    
+    OperationKeywords& keywords = operation.GetKeywordsInternal();
+    keywords.SetB("B");
+    keywords.SetR("R");
+    keywords.SetS("S");
+    keywords.SetT("T");
+    keywords.SetKeyword("THL");
+    keywords.SetEmergencyKeyword("Crash");
+    
+    Operation copy = operation;
+    
+    BOOST_CHECK(operation.GetAbsender() == copy.GetAbsender());
+    BOOST_CHECK(operation.GetComment() == copy.GetComment());
+    BOOST_CHECK(operation.GetEinsatzort() == copy.GetEinsatzort());
+    BOOST_CHECK(operation.GetEinsatzortPlannummer() == copy.GetEinsatzortPlannummer());
+    BOOST_CHECK(operation.GetEinsatzortStation() == copy.GetEinsatzortStation());
+    BOOST_CHECK(operation.GetEinsatzortZusatz() == copy.GetEinsatzortZusatz());
+    BOOST_CHECK(operation.GetGuid() == copy.GetGuid());
+    BOOST_CHECK(operation.GetId() == copy.GetId());
+    BOOST_CHECK(operation.GetKeywords() == copy.GetKeywords());
+    BOOST_CHECK(operation.GetMessenger() == copy.GetMessenger());
+    BOOST_CHECK(operation.GetOperationNumber() == copy.GetOperationNumber());
+    BOOST_CHECK(operation.GetPriority() == copy.GetPriority());
+    BOOST_CHECK(operation.GetResources() == copy.GetResources());
+    BOOST_CHECK(operation.GetTermin() == copy.GetTermin());
+    BOOST_CHECK(operation.GetTimestamp() == copy.GetTimestamp());
+    BOOST_CHECK(operation.GetTimestampIncome() == copy.GetTimestampIncome());
+    BOOST_CHECK(operation.GetZielort() == copy.GetZielort());
+    BOOST_CHECK(operation.GetZielortStation() == copy.GetZielortStation());
+    BOOST_CHECK(operation.GetZielortZusatz() == copy.GetZielortZusatz());
+}
+
+BOOST_AUTO_TEST_CASE( AssertResourcesAreFreed )
+{
+    OperationResource* resource1 = new OperationResource();
+    resource1->SetFullName("Res1");
+    resource1->SetTimestamp(boost::posix_time::second_clock::local_time());
+    resource1->AddRequestedEquipment("THL");
+    resource1->AddRequestedEquipment("Rauchverschluss");
+    
+    Operation* operation = new Operation();
+    operation->AddResource(resource1);
+    
+    BOOST_CHECK(1 == operation->GetResources().at(0).use_count());
+    
+    shared_ptr<OperationResource> r = operation->GetResources().at(0);
+    
+    BOOST_CHECK(2 == r.use_count()); // r and operation
+    
+    delete operation;
+    
+    BOOST_CHECK(1 == r.use_count()); // only r
 }

@@ -35,69 +35,69 @@ public:
      * @brief Gets the location name.
      * @return
      */
-    virtual string GetLocation() = 0;
+    virtual string GetLocation() const = 0;
     
     /**
      * @brief Gets the zip code of the city.
      * @return
      */
-    virtual string GetZipCode() = 0;
+    virtual string GetZipCode() const = 0;
     
     /**
      * @brief Gets the city name.
      * @return
      */
-    virtual string GetCity() = 0;
+    virtual string GetCity() const = 0;
     
     /**
      * @brief Gets the street. May contain the street number.
      * @return
      */
-    virtual string GetStreet() = 0;
+    virtual string GetStreet() const = 0;
     
     /**
      * @brief Gets the street number. May be contained within the street.
      * @return
      */
-    virtual string GetStreetNumber() = 0;
+    virtual string GetStreetNumber() const = 0;
     
     /**
      * @brief Gets a description of the "Intersection" (if provided by alarmsource).
      * @return
      */
-    virtual string GetIntersection() = 0;
+    virtual string GetIntersection() const = 0;
     
     /**
      * @brief Gets the latitude of the location (if provided by alarmsource).
      * @return
      */
-    virtual string GetGeoLatitude() = 0;
+    virtual string GetGeoLatitude() const = 0;
     
     /**
      * @brief Gets the longitude of the location (if provided by alarmsource).
      * @return
      */
-    virtual string GetGeoLongitude() = 0;
+    virtual string GetGeoLongitude() const = 0;
     
     /**
      * @brief Gets the name of the property (company, site, house etc.).
      * @return
      */
-    virtual string GetProperty() = 0;
+    virtual string GetProperty() const = 0;
     
     /**
      * @brief Gets whether or not this instance represents a meaningful geographic location.
      *        This takes only ZipCode, City and Street into account.
      * @return
      */
-    virtual bool IsMeaningful() = 0;
+    virtual bool IsMeaningful() const = 0;
     
     /**
      * @brief Gets whether or not there are meaningful values for the geo
      *        coordinates (latitude and longitude) defined.
      * @return
      */
-    virtual bool HasGeoCoordinates() = 0;
+    virtual bool HasGeoCoordinates() const = 0;
 
     /**
      * @brief Returns a string describing the property location like:
@@ -105,6 +105,19 @@ public:
      * @return
      */
     virtual string ToString() const = 0;
+    
+    bool operator== (const ILocation& other) const
+    {
+        return this->GetCity() == other.GetCity() &&
+               this->GetGeoLatitude() == other.GetGeoLatitude() &&
+               this->GetGeoLongitude() == other.GetGeoLongitude() &&
+               this->GetIntersection() == other.GetIntersection() &&
+               this->GetLocation() == other.GetLocation() &&
+               this->GetProperty() == other.GetProperty() &&
+               this->GetStreet() == other.GetStreet() &&
+               this->GetStreetNumber() == other.GetStreetNumber() &&
+               this->GetZipCode() == other.GetZipCode();
+    }
     
     friend ostream& operator<< (ostream& out, const ILocation& location)
     {

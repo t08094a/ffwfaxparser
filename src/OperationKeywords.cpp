@@ -74,7 +74,7 @@ bool OperationKeywords::operator!= (const OperationKeywords& other) const
     return ! operator==(other);
 }
 
-string OperationKeywords::GetKeyword()
+string OperationKeywords::GetKeyword() const
 {
     return keyword;
 }
@@ -84,7 +84,7 @@ void OperationKeywords::SetKeyword(const string keyword)
     this->keyword = boost::trim_copy(keyword);
 }
 
-string OperationKeywords::GetEmergencyKeyword()
+string OperationKeywords::GetEmergencyKeyword() const
 {
     return emergencyKeyword;
 }
@@ -94,7 +94,7 @@ void OperationKeywords::SetEmergencyKeyword(const string keyword)
     emergencyKeyword = boost::trim_copy(keyword);
 }
 
-string OperationKeywords::GetB()
+string OperationKeywords::GetB() const
 {
     return b;
 }
@@ -104,7 +104,7 @@ void OperationKeywords::SetB(const string b)
     this->b = boost::trim_copy(b);
 }
 
-string OperationKeywords::GetR()
+string OperationKeywords::GetR() const
 {
     return r;
 }
@@ -114,7 +114,7 @@ void OperationKeywords::SetR(const string r)
     this->r = boost::trim_copy(r);
 }
 
-string OperationKeywords::GetS()
+string OperationKeywords::GetS() const
 {
     return s;
 }
@@ -124,7 +124,7 @@ void OperationKeywords::SetS(const string s)
     this->s = boost::trim_copy(s);
 }
 
-string OperationKeywords::GetT()
+string OperationKeywords::GetT() const
 {
     return t;
 }
