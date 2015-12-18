@@ -375,6 +375,85 @@ BOOST_AUTO_TEST_CASE( VerifyCopyConstructorCreatesAnEqualObject )
     BOOST_CHECK(operation.GetZielortZusatz() == copy.GetZielortZusatz());
 }
 
+BOOST_AUTO_TEST_CASE( VerifyAssignmentOperatorCreatesAnEqualObject )
+{
+    OperationResource* resource1 = new OperationResource();
+    resource1->SetFullName("Res1");
+    resource1->SetTimestamp(boost::posix_time::second_clock::local_time());
+    resource1->AddRequestedEquipment("THL");
+    resource1->AddRequestedEquipment("Rauchverschluss");
+    
+    Operation operation;
+    operation.SetId(1);
+    operation.SetAbsender("Klaus");
+    operation.SetTermin("morgen");
+    operation.SetEinsatzortZusatz("Hinterhof");
+    operation.SetEinsatzortPlannummer("443");
+    operation.SetEinsatzortStation("Bahnhof");
+    operation.SetOperationNumber("3");
+    operation.SetMessenger("Heinz");
+    operation.SetPriority("9");
+    operation.SetComment("Eilt");
+    operation.SetZielortStation("Männa");
+    operation.SetZielortZusatz("Sackgasse");
+    operation.AddResource(resource1);
+    
+    PropertyLocation& einsatzort = operation.GetEinsatzortInternal();
+    einsatzort.SetStreet("Hauptstraße");
+    einsatzort.SetStreetNumber("1a");
+    einsatzort.SetZipCode("91472");
+    einsatzort.SetCity("Ipsheim");
+    
+    PropertyLocation& zielort = operation.GetZielortInternal();
+    zielort.SetStreet("Hauptstraße");
+    zielort.SetStreetNumber("1a");
+    zielort.SetZipCode("91472");
+    zielort.SetCity("Ipsheim");
+    
+    OperationKeywords& keywords = operation.GetKeywordsInternal();
+    keywords.SetB("B");
+    keywords.SetR("R");
+    keywords.SetS("S");
+    keywords.SetT("T");
+    keywords.SetKeyword("THL");
+    keywords.SetEmergencyKeyword("Crash");
+    
+    Operation copy;
+    copy = operation;
+    
+    BOOST_CHECK(operation == copy);
+    
+    BOOST_CHECK(operation.GetAbsender() == copy.GetAbsender());
+    BOOST_CHECK(operation.GetComment() == copy.GetComment());
+    BOOST_CHECK(operation.GetEinsatzort() == copy.GetEinsatzort());
+    BOOST_CHECK(operation.GetEinsatzortPlannummer() == copy.GetEinsatzortPlannummer());
+    BOOST_CHECK(operation.GetEinsatzortStation() == copy.GetEinsatzortStation());
+    BOOST_CHECK(operation.GetEinsatzortZusatz() == copy.GetEinsatzortZusatz());
+    BOOST_CHECK(operation.GetGuid() == copy.GetGuid());
+    BOOST_CHECK(operation.GetId() == copy.GetId());
+    BOOST_CHECK(operation.GetKeywords() == copy.GetKeywords());
+    BOOST_CHECK(operation.GetMessenger() == copy.GetMessenger());
+    BOOST_CHECK(operation.GetOperationNumber() == copy.GetOperationNumber());
+    BOOST_CHECK(operation.GetPriority() == copy.GetPriority());
+    BOOST_CHECK(operation.GetResources() == copy.GetResources());
+    BOOST_CHECK(operation.GetTermin() == copy.GetTermin());
+    BOOST_CHECK(operation.GetTimestamp() == copy.GetTimestamp());
+    BOOST_CHECK(operation.GetTimestampIncome() == copy.GetTimestampIncome());
+    BOOST_CHECK(operation.GetZielort() == copy.GetZielort());
+    BOOST_CHECK(operation.GetZielortStation() == copy.GetZielortStation());
+    BOOST_CHECK(operation.GetZielortZusatz() == copy.GetZielortZusatz());
+}
+
+BOOST_AUTO_TEST_CASE( VerifyAssignmentOperatorWithSamePointerShouldHandleSelfAssignment )
+{
+    Operation operation1;
+    operation1.SetId(1);
+    
+    operation1 = operation1;
+    
+    BOOST_CHECK(addressof<Operation>(operation1) == addressof<Operation>(operation1));
+}
+
 BOOST_AUTO_TEST_CASE( AssertResourcesAreFreed )
 {
     OperationResource* resource1 = new OperationResource();
