@@ -131,11 +131,6 @@ void Operation::CopyValues(const Operation& other)
     keywords = other.keywords;
     
     // deep copy of all resources
-    if(resources.max_size() < other.resources.size())
-    {
-        resources.resize(other.resources.size());
-    }
-    
     resources.clear();
         
     for(auto& orig : other.resources)

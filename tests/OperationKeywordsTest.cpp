@@ -141,3 +141,13 @@ BOOST_AUTO_TEST_CASE(AssignmentCreatesIdenticalObject)
     delete op1;
     // delete op2; // already free by delete op1
 }
+
+BOOST_AUTO_TEST_CASE( VerifyAssignmentOperatorWithSamePointerShouldHandleSelfAssignment )
+{
+    OperationKeywords op;
+    op.SetKeyword("THL");
+    
+    op = op;
+    
+    BOOST_CHECK(addressof<OperationKeywords>(op) == addressof<OperationKeywords>(op));
+}
