@@ -366,13 +366,15 @@ BOOST_AUTO_TEST_CASE( VerifyCopyConstructorCreatesAnEqualObject )
     BOOST_CHECK(operation.GetMessenger() == copy.GetMessenger());
     BOOST_CHECK(operation.GetOperationNumber() == copy.GetOperationNumber());
     BOOST_CHECK(operation.GetPriority() == copy.GetPriority());
-    BOOST_CHECK(operation.GetResources() == copy.GetResources());
     BOOST_CHECK(operation.GetTermin() == copy.GetTermin());
     BOOST_CHECK(operation.GetTimestamp() == copy.GetTimestamp());
     BOOST_CHECK(operation.GetTimestampIncome() == copy.GetTimestampIncome());
     BOOST_CHECK(operation.GetZielort() == copy.GetZielort());
     BOOST_CHECK(operation.GetZielortStation() == copy.GetZielortStation());
     BOOST_CHECK(operation.GetZielortZusatz() == copy.GetZielortZusatz());
+    
+    BOOST_CHECK(operation.GetResources().size() == copy.GetResources().size());
+    BOOST_CHECK(*operation.GetResources().at(0) == *copy.GetResources().at(0));
 }
 
 BOOST_AUTO_TEST_CASE( VerifyAssignmentOperatorCreatesAnEqualObject )
@@ -435,13 +437,99 @@ BOOST_AUTO_TEST_CASE( VerifyAssignmentOperatorCreatesAnEqualObject )
     BOOST_CHECK(operation.GetMessenger() == copy.GetMessenger());
     BOOST_CHECK(operation.GetOperationNumber() == copy.GetOperationNumber());
     BOOST_CHECK(operation.GetPriority() == copy.GetPriority());
-    BOOST_CHECK(operation.GetResources() == copy.GetResources());
     BOOST_CHECK(operation.GetTermin() == copy.GetTermin());
     BOOST_CHECK(operation.GetTimestamp() == copy.GetTimestamp());
     BOOST_CHECK(operation.GetTimestampIncome() == copy.GetTimestampIncome());
     BOOST_CHECK(operation.GetZielort() == copy.GetZielort());
     BOOST_CHECK(operation.GetZielortStation() == copy.GetZielortStation());
     BOOST_CHECK(operation.GetZielortZusatz() == copy.GetZielortZusatz());
+    
+    BOOST_CHECK(operation.GetResources().size() == copy.GetResources().size());
+    BOOST_CHECK(*operation.GetResources().at(0) == *copy.GetResources().at(0));
+}
+
+BOOST_AUTO_TEST_CASE( ComparedObjectWithDifferendMessengerObjectsResultInFalse )
+{
+    OperationResource* resource1 = new OperationResource();
+    resource1->SetFullName("Res1");
+    resource1->SetTimestamp(boost::posix_time::second_clock::local_time());
+    resource1->AddRequestedEquipment("THL");
+    resource1->AddRequestedEquipment("Rauchverschluss");
+    
+    Operation operation;
+    operation.SetId(1);
+    operation.SetAbsender("Klaus");
+    operation.SetTermin("morgen");
+    operation.SetEinsatzortZusatz("Hinterhof");
+    operation.SetEinsatzortPlannummer("443");
+    operation.SetEinsatzortStation("Bahnhof");
+    operation.SetOperationNumber("3");
+    operation.SetMessenger("Heinz");
+    operation.SetPriority("9");
+    operation.SetComment("Eilt");
+    operation.SetZielortStation("Männa");
+    operation.SetZielortZusatz("Sackgasse");
+    operation.AddResource(resource1);
+        
+    Operation copy;
+    copy = operation;
+    
+    // modify copy
+    copy.SetMessenger("Wilfried");
+    
+    BOOST_CHECK(operation != copy);
+}
+
+BOOST_AUTO_TEST_CASE( ComparedObjectWithDifferendResourcesObjectsResultInFalse )
+{
+    OperationResource* resource1 = new OperationResource();
+    resource1->SetFullName("Res1");
+    resource1->SetTimestamp(boost::posix_time::second_clock::local_time());
+    resource1->AddRequestedEquipment("THL");
+    resource1->AddRequestedEquipment("Rauchverschluss");
+    
+    Operation operation;
+    operation.SetId(1);
+    operation.SetAbsender("Klaus");
+    operation.SetTermin("morgen");
+    operation.SetEinsatzortZusatz("Hinterhof");
+    operation.SetEinsatzortPlannummer("443");
+    operation.SetEinsatzortStation("Bahnhof");
+    operation.SetOperationNumber("3");
+    operation.SetMessenger("Heinz");
+    operation.SetPriority("9");
+    operation.SetComment("Eilt");
+    operation.SetZielortStation("Männa");
+    operation.SetZielortZusatz("Sackgasse");
+    operation.AddResource(resource1);
+    
+    PropertyLocation& einsatzort = operation.GetEinsatzortInternal();
+    einsatzort.SetStreet("Hauptstraße");
+    einsatzort.SetStreetNumber("1a");
+    einsatzort.SetZipCode("91472");
+    einsatzort.SetCity("Ipsheim");
+    
+    PropertyLocation& zielort = operation.GetZielortInternal();
+    zielort.SetStreet("Hauptstraße");
+    zielort.SetStreetNumber("1a");
+    zielort.SetZipCode("91472");
+    zielort.SetCity("Ipsheim");
+    
+    OperationKeywords& keywords = operation.GetKeywordsInternal();
+    keywords.SetB("B");
+    keywords.SetR("R");
+    keywords.SetS("S");
+    keywords.SetT("T");
+    keywords.SetKeyword("THL");
+    keywords.SetEmergencyKeyword("Crash");
+    
+    Operation copy;
+    copy = operation;
+    
+    // modify copy
+    (*copy.GetResources().front().get()).SetFullName("Res2");
+    
+    BOOST_CHECK(operation != copy);
 }
 
 BOOST_AUTO_TEST_CASE( VerifyAssignmentOperatorWithSamePointerShouldHandleSelfAssignment )
@@ -452,26 +540,4 @@ BOOST_AUTO_TEST_CASE( VerifyAssignmentOperatorWithSamePointerShouldHandleSelfAss
     operation1 = operation1;
     
     BOOST_CHECK(addressof<Operation>(operation1) == addressof<Operation>(operation1));
-}
-
-BOOST_AUTO_TEST_CASE( AssertResourcesAreFreed )
-{
-    OperationResource* resource1 = new OperationResource();
-    resource1->SetFullName("Res1");
-    resource1->SetTimestamp(boost::posix_time::second_clock::local_time());
-    resource1->AddRequestedEquipment("THL");
-    resource1->AddRequestedEquipment("Rauchverschluss");
-    
-    Operation* operation = new Operation();
-    operation->AddResource(resource1);
-    
-    BOOST_CHECK(1 == operation->GetResources().at(0).use_count());
-    
-    shared_ptr<OperationResource> r = operation->GetResources().at(0);
-    
-    BOOST_CHECK(2 == r.use_count()); // r and operation
-    
-    delete operation;
-    
-    BOOST_CHECK(1 == r.use_count()); // only r
 }

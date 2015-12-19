@@ -60,6 +60,11 @@ bool OperationResource::operator== (const OperationResource& other) const
            requestedEquipment == other.requestedEquipment;
 }
 
+bool OperationResource::operator!= (const OperationResource& other) const
+{
+    return operator==(other) == false;
+}
+
 string OperationResource::GetFullName()
 {
     return fullName;

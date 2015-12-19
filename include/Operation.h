@@ -32,7 +32,7 @@ using namespace std;
 class Operation : public IOperation
 {
 private:
-    vector<shared_ptr<OperationResource>> resources;
+    vector<unique_ptr<OperationResource>> resources;
     int id;
     boost::uuids::uuid guid;
     boost::posix_time::ptime timestampIncome;
@@ -51,6 +51,8 @@ private:
     PropertyLocation einsatzort;
     PropertyLocation zielort;
     OperationKeywords keywords;
+    
+    void CopyValues(const Operation& other);
 
 public:
     Operation();
@@ -58,6 +60,7 @@ public:
     virtual ~Operation();
     Operation& operator= ( const Operation& other );
     bool operator== ( const Operation& other ) const;
+    bool operator!= ( const Operation& other ) const;
     
     friend ostream& operator<< (ostream& out, const Operation& operation)
     {
@@ -182,7 +185,7 @@ public:
 
     void AddResource(OperationResource *resource);
     
-    const vector<shared_ptr<OperationResource>>& GetResources() const;
+    const vector<unique_ptr<OperationResource>>& GetResources() const;
 
     /**
      * @brief Gets the comment text. Usually this contains

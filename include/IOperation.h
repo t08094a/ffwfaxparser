@@ -100,7 +100,7 @@ public:
      */
     virtual std::string GetComment() = 0;
     
-    virtual const vector<shared_ptr<OperationResource>>& GetResources() const = 0;
+    virtual const vector<unique_ptr<OperationResource>>& GetResources() const = 0;
     
     virtual std::string ToString() const = 0;
     

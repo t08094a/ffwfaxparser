@@ -58,6 +58,10 @@ add_executable(${PROJECT_NAME}_OperationKeywords TestRunner.cpp OperationKeyword
 target_link_libraries(${PROJECT_NAME}_OperationKeywords PRIVATE faxparser ${Boost_LIBRARIES})
 add_test(NAME OperationKeywords COMMAND ${PROJECT_NAME}_OperationKeywords)
 
+add_executable(${PROJECT_NAME}_OperationResource TestRunner.cpp OperationResourceTest.cpp ) 
+target_link_libraries(${PROJECT_NAME}_OperationResource PRIVATE faxparser ${Boost_LIBRARIES})
+add_test(NAME OperationResource COMMAND ${PROJECT_NAME}_OperationResource)
+
 add_executable(${PROJECT_NAME}_IlsAnsbach TestRunner.cpp IlsAnsbachTest.cpp) 
 target_link_libraries(${PROJECT_NAME}_IlsAnsbach PRIVATE faxparser ${Boost_LIBRARIES})
 add_test(NAME IlsAnsbach COMMAND ${PROJECT_NAME}_IlsAnsbach)

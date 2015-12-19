@@ -34,25 +34,7 @@ Operation::Operation()
 
 Operation::Operation (const Operation& other)
 {
-    id = other.id;
-    guid = other.guid;
-    timestampIncome = other.timestampIncome;
-    timestamp = other.timestamp;
-    absender = other.absender;
-    termin = other.termin;
-    einsatzortZusatz = other.einsatzortZusatz;
-    einsatzortPlannummer = other.einsatzortPlannummer;
-    einsatzortStation = other.einsatzortStation;
-    zielortZusatz = other.zielortZusatz;
-    zielortStation = other.zielortStation;
-    operationNumber = other.operationNumber;
-    einsatzort = other.einsatzort;
-    zielort = other.zielort;
-    messenger = other.messenger;
-    priority = other.priority;
-    comment = other.comment;
-    keywords = other.keywords;
-    resources = other.resources;
+    CopyValues(other);
 }
 
 Operation::~Operation()
@@ -67,6 +49,68 @@ Operation& Operation::operator= (const Operation& other)
         return *this; // handle self assignment
     }
     
+    CopyValues(other);
+    
+    return *this;
+}
+
+bool Operation::operator== (const Operation& other) const
+{
+    bool equal = id == other.id &&
+                 guid == other.guid &&
+                 timestampIncome == other.timestampIncome &&
+                 timestamp == other.timestamp &&
+                 absender == other.absender &&
+                 termin == other.termin &&
+                 einsatzortZusatz == other.einsatzortZusatz &&
+                 einsatzortPlannummer == other.einsatzortPlannummer &&
+                 einsatzortStation == other.einsatzortStation &&
+                 zielortZusatz == other.zielortZusatz &&
+                 zielortStation == other.zielortStation &&
+                 operationNumber == other.operationNumber &&
+                 einsatzort == other.einsatzort &&
+                 zielort == other.zielort &&
+                 messenger == other.messenger &&
+                 priority == other.priority &&
+                 comment == other.comment &&
+                 keywords == other.keywords;
+
+    if(equal)
+    {
+        equal = resources.size() == other.resources.size();
+        
+        if(equal)
+        {
+            vector<unique_ptr<OperationResource>>::const_iterator it1 = resources.begin();
+            vector<unique_ptr<OperationResource>>::const_iterator it2 = other.resources.begin();
+            
+            for(;
+                it1 != resources.end() && it2 != resources.end();
+                ++it1, ++it2)
+            {
+                const unique_ptr<OperationResource>& r1 = *it1;
+                const unique_ptr<OperationResource>& r2 = *it2;
+                
+                equal = *r1.get() == *r2.get();
+                
+                if(equal == false)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    
+    return equal;
+}
+
+bool Operation::operator!= (const Operation& other) const
+{
+    return operator==(other) == false;
+}
+
+void Operation::CopyValues(const Operation& other)
+{
     id = other.id;
     guid = other.guid;
     timestampIncome = other.timestampIncome;
@@ -85,32 +129,20 @@ Operation& Operation::operator= (const Operation& other)
     priority = other.priority;
     comment = other.comment;
     keywords = other.keywords;
-    resources = other.resources;
     
-    return *this;
-}
-
-bool Operation::operator== (const Operation& other) const
-{
-    return id == other.id &&
-           guid == other.guid &&
-           timestampIncome == other.timestampIncome &&
-           timestamp == other.timestamp &&
-           absender == other.absender &&
-           termin == other.termin &&
-           einsatzortZusatz == other.einsatzortZusatz &&
-           einsatzortPlannummer == other.einsatzortPlannummer &&
-           einsatzortStation == other.einsatzortStation &&
-           zielortZusatz == other.zielortZusatz &&
-           zielortStation == other.zielortStation &&
-           operationNumber == other.operationNumber &&
-           einsatzort == other.einsatzort && // todo: == pointer copy
-           zielort == other.zielort &&       // todo: == pointer copy
-           messenger == other.messenger &&
-           priority == other.priority &&
-           comment == other.comment &&
-           keywords == other.keywords &&     // todo: == pointer copy
-           resources == other.resources;   // todo: == pointer copy
+    // deep copy of all resources
+    if(resources.max_size() < other.resources.size())
+    {
+        resources.resize(other.resources.size());
+    }
+    
+    resources.clear();
+        
+    for(auto& orig : other.resources)
+    {
+        OperationResource* cp = new OperationResource(*orig.get());
+        AddResource(cp);
+    }
 }
 
 int Operation::GetId() const
@@ -265,10 +297,10 @@ void Operation::SetComment(const string comment)
 
 void Operation::AddResource(OperationResource* resource)
 {
-    resources.push_back(shared_ptr<OperationResource>(resource));
+    resources.push_back(unique_ptr<OperationResource>(resource));
 }
 
-const vector<shared_ptr<OperationResource>>& Operation::GetResources() const
+const vector<unique_ptr<OperationResource> >& Operation::GetResources() const
 {
     return resources;
 }
@@ -328,9 +360,10 @@ string Operation::ToString() const
     ss << "\t" << "zielortZusatz: " << zielortZusatz << endl;
     ss << "\t" << "resources: " << endl;
     
-    for(auto resource : resources)
+    // for(unique_ptr<OperationResource>& resource : resources)
+    for(auto& resource : resources)
     {
-        ss << "\t\t" << *resource << endl;
+        ss << "\t\t" << *resource.get() << endl;
     }
     
     return ss.str();

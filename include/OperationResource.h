@@ -43,6 +43,7 @@ public:
     virtual ~OperationResource();
     OperationResource& operator= ( const OperationResource& other );
     bool operator== ( const OperationResource& other ) const;
+    bool operator!= ( const OperationResource& other ) const;
     
     friend ostream& operator<< (ostream& out, const OperationResource& resource)
     {
@@ -88,6 +89,7 @@ public:
      * @return A string that contains all informations.
      */
     string ToString() const;
+    void SetId ( int arg1 );
 };
 
 #endif // OPERATIONRESOURCE_H
